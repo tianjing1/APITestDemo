@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>搜索功能测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 120%; }
+table       { font-size: 100%; }
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei">搜索功能测试报告</h1>
+<p class='attribute'><strong>测试人员 : </strong> 小简</p>
+<p class='attribute'><strong>开始时间 : </strong> 2018-09-14 09:40:14</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:00:10.445480</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 16，通过 10，失败 2，错误 4，通过率= 62.50%</p>
+
+<p class='description'>用例执行情况：</p>
+</div>
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 62.50% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 2 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 10 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 16 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 16px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',1)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='pt1_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse in" align="left">
+    <pre>
+    
+pt1_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：checkWithCode
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v2/login/checkVerifyCodeV2
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': '18317119999', 'code': '123456'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+message success
+期望的code为： 1000000
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',1)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='pt2_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse in" align="left">
+    <pre>
+    
+pt2_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：checkWithErrorCode
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v2/login/checkVerifyCodeV2
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': '18317129999', 'code': '111111'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1110000
+message 验证码错误
+期望的code为： 1110000
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',1)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse in" align="left">
+    <pre>
+    
+pt3_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：checkWithEmptyCode
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v2/login/checkVerifyCodeV2
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': '18317139999', 'code': ''}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1911001
+message 请填写正确的短信验证码
+期望的code为： 1911001
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>paramunittest.GetDiseasesList_0</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',2)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='ft4_1' class='none'>
+    <td class='failCase'><div class='testcase'>testGetDisease</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_1'>失败</button>
+    <div id='div_ft4_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_1'>失败</button>
+    <div id='div_ft4_1' class="collapse in" align="left">
+    <pre>
+    
+ft4_1: getCommontDisease测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/diseases
+第二步：设置header(token等)
+第二步：设置发送请求的参数 {'isCommon': '0', 'name': '骨折', 'parentCategoryId': '', 'categoryId': '', 'relatedDoctor': '', 'page': '1', 'pageSize': '20'}
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 3190, 'name': '颌骨骨折', 'is_common': 0, 'initial': 'H', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3032, 'name': '鼻骨骨折', 'is_common': 0, 'initial': 'B', 'description': '鼻是面部最突出的部位，容易受外力所伤，鼻骨骨折是耳鼻喉科常见的外伤，约占耳鼻喉科外伤疾病50%。鼻骨骨折可影响面部的外形及鼻腔的通气功能。鼻骨骨折可单独发生，严重者可合并鼻中隔骨折、软骨脱位、上颌骨额突、鼻窦、眶壁、颅底等的外伤，导致相应部位结构及功能的异常。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1456, 'name': '骶骨骨折', 'is_common': 0, 'initial': 'D', 'description': '骶骨骨折可单独发生，亦可与骨盆损伤同时出现;前者较少见，而后者在骨盆骨折中约占30%～40%，因此，其绝对发生率远较单发者为高，且以男性多见;在治疗上亦较复杂，需与骨盆骨折的治疗一并考虑。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 1402, 'name': '指骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '指骨骨折在手部最为常见，多为开放性骨折。且多为直接暴力所致，可于手指的任何部位导致各种不同类型的骨折。指骨骨折由于部位不同，受到来自不同方向的肌腱的牵拉作用，产生不同方向的移位，如近节指骨中段骨折，受骨间肌和蚓状肌的牵拉，而致向掌侧成角；中节指骨在指浅屈肌腱止点远侧骨折，由于其牵拉亦产生向掌侧成角;如在指浅屈肌腱止点近端骨折，则受伸肌腱牵拉造成向背侧成角。近节指骨基底部关节内骨折可分为副韧带撕裂、压缩骨折及纵形劈裂骨折3类。远节指骨骨折多为粉碎性骨折，常无明显移位;而远节指骨基底部背侧的撕脱骨折，通常形成', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1401, 'name': '舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '舟状骨骨折(fractures of scaphoid)占腕骨骨折的71.2%，多在舟状骨腰部发生，占舟状骨骨折的70%，舟骨结节及舟骨近端骨折各占10%～15%，骨折线先自掌、尺侧开始，后达背外侧，多见于年轻人，儿童罕见。舟状骨骨折同时有其他腕骨骨折及脱位时，预后不佳。 舟骨大部分为关节软骨覆盖，只有舟骨结节和腰的背外侧部有骨质裸露，滋养血管由此进入骨内并向四周分支供血。舟骨近侧2/3～3/4的血液来自腰部入骨的血管，远侧1/4～1/3则舟骨结节入骨的血管滋养。由腰入骨并向近极逆行供血的血管可因腰部骨折', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1376, 'name': '锁骨骨折', 'is_common': 0, 'initial': 'S', 'description': '锁骨呈S形架于胸骨柄与肩峰之间，是连接上肢与躯干之间的惟一骨性支架。锁骨位于皮下，表浅，受外力作用时易发生骨折，发生率占全身骨折的5%～10%。多发生在儿童及青壮年。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3027, 'name': '颞骨骨折', 'is_common': 0, 'initial': 'N', 'description': '颞骨骨折是颅底骨折的一部分，发生时常伴有不同程度的颅内或胸、腹部等组织和器官损伤。颞骨的岩部、鳞部和乳突部中以岩部骨折最常见，其原因是岩部含有各种孔隙、管道与气房，较为脆弱，故颅底骨折有1/3发生于此。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 65, 'disease_category_name': '耳鼻喉（头颈）外科'}]}, {'id': 2207, 'name': '胸骨骨折', 'is_common': 0, 'initial': 'X', 'description': '胸骨为坚韧扁骨，创伤性胸骨骨折约占胸部伤的1.5%～5%。多由直接暴力或作用于胸前的挤压力量所造成，如汽车撞压，房屋倒塌压伤，钝器打击伤，身体运动中前胸被硬物撞击等，脊柱过度屈曲亦可造成胸骨骨折。刀刺伤致胸骨不全骨折较少见。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 993, 'name': '舌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '舌骨呈蹄形，由舌骨体、大角(2个)和小角(2个)构成，是舌体的主要支持者，下方紧邻甲状软骨，舌骨大角有茎舌骨韧带与颞骨的茎突相连。舌骨大部分位于皮下。舌骨可呈先天性畸形，茎舌骨韧带可钙化或骨化与舌骨相连，正常人在20～30岁以前，舌骨体与舌骨大角无骨性连接者占50%以上。舌骨体与舌骨小角也有软骨相隔，茎舌骨韧带钙化或与舌骨骨性融合，或过早骨性连接都是骨折的诱因。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}, {'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1442, 'name': 'Chance骨折', 'is_common': 0, 'initial': 'C', 'description': '又称之为屈曲牵张性骨折，多见于高速公路安全带遇急刹车时上身突然前屈所致。近年来临床上常遇见此种骨折，亦可将其视为屈曲型骨折的一个特殊类型。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 3149, 'name': '牙槽骨骨折', 'is_common': 0, 'initial': 'Y', 'description': '牙槽骨骨折以上颌前部较多见，也可上、下颌同时发生。常伴有唇与牙龈的撕裂与肿胀。骨折片有明显的动度，摇动伤处1个牙时，可见骨折牙槽段上几个牙一起移动。由于骨折片移位，发生咬合错乱。常同时有牙折或牙脱位。如外力来自一侧面颊部，也可造成侧方后牙的牙槽骨骨折，如发生在上颌部，还可同时伴有腭部骨折或上颌窦损伤。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1418, 'name': '尺骨干骨折', 'is_common': 0, 'initial': 'C', 'description': '尺骨干骨折较相对少见，在诊治方面一般多无难题,经及时恰当处理，多数病人能恢复原来的功能，少数病人可留有不同程度的后遗症。。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1396, 'name': '足舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '足舟骨同楔骨和骰骨一起组成中跗关节，又称之跗横关节，这一关节易因外伤而引起脱位。所以，如足舟骨发生骨折，要警惕合并中跗关节的损伤。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1387, 'name': '桡骨干骨折', 'is_common': 0, 'initial': 'R', 'description': '单独桡骨干骨折，仅占前臂骨折总数的12%，以青壮年居多。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1384, 'name': '桡骨头骨折', 'is_common': 0, 'initial': 'R', 'description': '桡骨小头骨折是成年人容易发生的肘部损伤，通常疼痛症状较轻，临床上容易误诊。桡骨头的头、颈部骨折约占肘部损伤的6%，属于关节内骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1361, 'name': '肱骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '单纯的肱骨头骨折比较少见，是一种关节内骨折，主要因间接外力所致。骨折多见于青壮年，偶见于老年。根据骨折的不同程度可分为肱骨头裂折、肱骨头骨折脱位及肱骨头粉碎性骨折三个类型。  ', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1353, 'name': '股骨髁骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨髁骨折占全身骨折的0.4%，但其疗效却不满意。股骨髁周围有关节囊、韧带，肌肉及肌腱附着。骨折块受这些组织的牵拉，不易复位也不易维持复位，股骨髁骨折，可并发腘动脉、神经及其周围软组织的广泛损伤。在伴有相邻支持结构如侧副韧带，交叉韧带损伤时，可造成膝关节不稳定，也因股四头肌，髌上囊损伤而造成伸膝装置粘连，损害膝关节功能。骨折可造成股骨髁与胫骨平台，髌骨与股骨关节面之间，相应关节的破坏，改变了正常膝正常的解剖轴与机械轴，破坏了膝关节正常负荷与传导。股骨髁骨折易发生骨块分离而不产生塌陷，易于产生“T”或“Y”', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1351, 'name': '股骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨头骨折多因较强的间接暴力所致，可以单独发生，但更多的是合并于髋关节脱位。髋关节前脱位可合并股骨头上方的骨折;髋关节后脱位，可并发股骨头内下方的骨折或头上部的骨折，有时也可见到股骨头粉碎骨折。单纯股骨头骨折比较少见，常为髋关节损伤的一部分，例如髋关节后脱位并发股骨头骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3169, 'name': '下颌骨骨折', 'is_common': 0, 'initial': 'X', 'description': '下颌骨是颌面部体积最大、位置较突出的骨骼，容易遭受损伤，无论在平时或战时，其损伤的发生率均较高，居颌面骨骨折的首位。据国内外有关资料统计，下颌骨骨折的发生率占颌面损伤总数的25%～28%，而占颌面骨骨折的55%～72%。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3101, 'name': '上颌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}], 'size': 67, 'page_size': 20, 'page': 1}
+表格中的result为： 200
+获得的值为： {'list': [{'id': 3190, 'name': '颌骨骨折', 'is_common': 0, 'initial': 'H', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3032, 'name': '鼻骨骨折', 'is_common': 0, 'initial': 'B', 'description': '鼻是面部最突出的部位，容易受外力所伤，鼻骨骨折是耳鼻喉科常见的外伤，约占耳鼻喉科外伤疾病50%。鼻骨骨折可影响面部的外形及鼻腔的通气功能。鼻骨骨折可单独发生，严重者可合并鼻中隔骨折、软骨脱位、上颌骨额突、鼻窦、眶壁、颅底等的外伤，导致相应部位结构及功能的异常。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1456, 'name': '骶骨骨折', 'is_common': 0, 'initial': 'D', 'description': '骶骨骨折可单独发生，亦可与骨盆损伤同时出现;前者较少见，而后者在骨盆骨折中约占30%～40%，因此，其绝对发生率远较单发者为高，且以男性多见;在治疗上亦较复杂，需与骨盆骨折的治疗一并考虑。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 1402, 'name': '指骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '指骨骨折在手部最为常见，多为开放性骨折。且多为直接暴力所致，可于手指的任何部位导致各种不同类型的骨折。指骨骨折由于部位不同，受到来自不同方向的肌腱的牵拉作用，产生不同方向的移位，如近节指骨中段骨折，受骨间肌和蚓状肌的牵拉，而致向掌侧成角；中节指骨在指浅屈肌腱止点远侧骨折，由于其牵拉亦产生向掌侧成角;如在指浅屈肌腱止点近端骨折，则受伸肌腱牵拉造成向背侧成角。近节指骨基底部关节内骨折可分为副韧带撕裂、压缩骨折及纵形劈裂骨折3类。远节指骨骨折多为粉碎性骨折，常无明显移位;而远节指骨基底部背侧的撕脱骨折，通常形成', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1401, 'name': '舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '舟状骨骨折(fractures of scaphoid)占腕骨骨折的71.2%，多在舟状骨腰部发生，占舟状骨骨折的70%，舟骨结节及舟骨近端骨折各占10%～15%，骨折线先自掌、尺侧开始，后达背外侧，多见于年轻人，儿童罕见。舟状骨骨折同时有其他腕骨骨折及脱位时，预后不佳。 舟骨大部分为关节软骨覆盖，只有舟骨结节和腰的背外侧部有骨质裸露，滋养血管由此进入骨内并向四周分支供血。舟骨近侧2/3～3/4的血液来自腰部入骨的血管，远侧1/4～1/3则舟骨结节入骨的血管滋养。由腰入骨并向近极逆行供血的血管可因腰部骨折', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1376, 'name': '锁骨骨折', 'is_common': 0, 'initial': 'S', 'description': '锁骨呈S形架于胸骨柄与肩峰之间，是连接上肢与躯干之间的惟一骨性支架。锁骨位于皮下，表浅，受外力作用时易发生骨折，发生率占全身骨折的5%～10%。多发生在儿童及青壮年。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3027, 'name': '颞骨骨折', 'is_common': 0, 'initial': 'N', 'description': '颞骨骨折是颅底骨折的一部分，发生时常伴有不同程度的颅内或胸、腹部等组织和器官损伤。颞骨的岩部、鳞部和乳突部中以岩部骨折最常见，其原因是岩部含有各种孔隙、管道与气房，较为脆弱，故颅底骨折有1/3发生于此。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 65, 'disease_category_name': '耳鼻喉（头颈）外科'}]}, {'id': 2207, 'name': '胸骨骨折', 'is_common': 0, 'initial': 'X', 'description': '胸骨为坚韧扁骨，创伤性胸骨骨折约占胸部伤的1.5%～5%。多由直接暴力或作用于胸前的挤压力量所造成，如汽车撞压，房屋倒塌压伤，钝器打击伤，身体运动中前胸被硬物撞击等，脊柱过度屈曲亦可造成胸骨骨折。刀刺伤致胸骨不全骨折较少见。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 993, 'name': '舌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '舌骨呈蹄形，由舌骨体、大角(2个)和小角(2个)构成，是舌体的主要支持者，下方紧邻甲状软骨，舌骨大角有茎舌骨韧带与颞骨的茎突相连。舌骨大部分位于皮下。舌骨可呈先天性畸形，茎舌骨韧带可钙化或骨化与舌骨相连，正常人在20～30岁以前，舌骨体与舌骨大角无骨性连接者占50%以上。舌骨体与舌骨小角也有软骨相隔，茎舌骨韧带钙化或与舌骨骨性融合，或过早骨性连接都是骨折的诱因。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}, {'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1442, 'name': 'Chance骨折', 'is_common': 0, 'initial': 'C', 'description': '又称之为屈曲牵张性骨折，多见于高速公路安全带遇急刹车时上身突然前屈所致。近年来临床上常遇见此种骨折，亦可将其视为屈曲型骨折的一个特殊类型。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 3149, 'name': '牙槽骨骨折', 'is_common': 0, 'initial': 'Y', 'description': '牙槽骨骨折以上颌前部较多见，也可上、下颌同时发生。常伴有唇与牙龈的撕裂与肿胀。骨折片有明显的动度，摇动伤处1个牙时，可见骨折牙槽段上几个牙一起移动。由于骨折片移位，发生咬合错乱。常同时有牙折或牙脱位。如外力来自一侧面颊部，也可造成侧方后牙的牙槽骨骨折，如发生在上颌部，还可同时伴有腭部骨折或上颌窦损伤。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1418, 'name': '尺骨干骨折', 'is_common': 0, 'initial': 'C', 'description': '尺骨干骨折较相对少见，在诊治方面一般多无难题,经及时恰当处理，多数病人能恢复原来的功能，少数病人可留有不同程度的后遗症。。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1396, 'name': '足舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '足舟骨同楔骨和骰骨一起组成中跗关节，又称之跗横关节，这一关节易因外伤而引起脱位。所以，如足舟骨发生骨折，要警惕合并中跗关节的损伤。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1387, 'name': '桡骨干骨折', 'is_common': 0, 'initial': 'R', 'description': '单独桡骨干骨折，仅占前臂骨折总数的12%，以青壮年居多。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1384, 'name': '桡骨头骨折', 'is_common': 0, 'initial': 'R', 'description': '桡骨小头骨折是成年人容易发生的肘部损伤，通常疼痛症状较轻，临床上容易误诊。桡骨头的头、颈部骨折约占肘部损伤的6%，属于关节内骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1361, 'name': '肱骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '单纯的肱骨头骨折比较少见，是一种关节内骨折，主要因间接外力所致。骨折多见于青壮年，偶见于老年。根据骨折的不同程度可分为肱骨头裂折、肱骨头骨折脱位及肱骨头粉碎性骨折三个类型。  ', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1353, 'name': '股骨髁骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨髁骨折占全身骨折的0.4%，但其疗效却不满意。股骨髁周围有关节囊、韧带，肌肉及肌腱附着。骨折块受这些组织的牵拉，不易复位也不易维持复位，股骨髁骨折，可并发腘动脉、神经及其周围软组织的广泛损伤。在伴有相邻支持结构如侧副韧带，交叉韧带损伤时，可造成膝关节不稳定，也因股四头肌，髌上囊损伤而造成伸膝装置粘连，损害膝关节功能。骨折可造成股骨髁与胫骨平台，髌骨与股骨关节面之间，相应关节的破坏，改变了正常膝正常的解剖轴与机械轴，破坏了膝关节正常负荷与传导。股骨髁骨折易发生骨块分离而不产生塌陷，易于产生“T”或“Y”', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1351, 'name': '股骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨头骨折多因较强的间接暴力所致，可以单独发生，但更多的是合并于髋关节脱位。髋关节前脱位可合并股骨头上方的骨折;髋关节后脱位，可并发股骨头内下方的骨折或头上部的骨折，有时也可见到股骨头粉碎骨折。单纯股骨头骨折比较少见，常为髋关节损伤的一部分，例如髋关节后脱位并发股骨头骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3169, 'name': '下颌骨骨折', 'is_common': 0, 'initial': 'X', 'description': '下颌骨是颌面部体积最大、位置较突出的骨骼，容易遭受损伤，无论在平时或战时，其损伤的发生率均较高，居颌面骨骨折的首位。据国内外有关资料统计，下颌骨骨折的发生率占颌面损伤总数的25%～28%，而占颌面骨骨折的55%～72%。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3101, 'name': '上颌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}], 'size': 67, 'page_size': 20, 'page': 1}
+list的长度 20
+第 0 个list中的id为： 3190
+第 1 个list中的id为： 3032
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 106, in testGetDisease
+    self.checkResult()
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 148, in checkResult
+    self.assertEqual(str(s1['list'][i]['id']), '3190')
+AssertionError: '3032' != '3190'
+- 3032
++ 3190
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_2' class='none'>
+    <td class='errorCase'><div class='testcase'>testGetDisease</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_2'>错误</button>
+    <div id='div_ft4_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_2'>错误</button>
+    <div id='div_ft4_2' class="collapse in" align="left">
+    <pre>
+    
+ft4_2: getCommontDisease测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/diseases
+第二步：设置header(token等)
+第二步：设置发送请求的参数 {'isCommon': '0', 'name': '骨折', 'parentCategoryId': '', 'categoryId': '', 'relatedDoctor': '', 'page': '1', 'pageSize': '20'}
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 3190, 'name': '颌骨骨折', 'is_common': 0, 'initial': 'H', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3032, 'name': '鼻骨骨折', 'is_common': 0, 'initial': 'B', 'description': '鼻是面部最突出的部位，容易受外力所伤，鼻骨骨折是耳鼻喉科常见的外伤，约占耳鼻喉科外伤疾病50%。鼻骨骨折可影响面部的外形及鼻腔的通气功能。鼻骨骨折可单独发生，严重者可合并鼻中隔骨折、软骨脱位、上颌骨额突、鼻窦、眶壁、颅底等的外伤，导致相应部位结构及功能的异常。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1456, 'name': '骶骨骨折', 'is_common': 0, 'initial': 'D', 'description': '骶骨骨折可单独发生，亦可与骨盆损伤同时出现;前者较少见，而后者在骨盆骨折中约占30%～40%，因此，其绝对发生率远较单发者为高，且以男性多见;在治疗上亦较复杂，需与骨盆骨折的治疗一并考虑。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 1402, 'name': '指骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '指骨骨折在手部最为常见，多为开放性骨折。且多为直接暴力所致，可于手指的任何部位导致各种不同类型的骨折。指骨骨折由于部位不同，受到来自不同方向的肌腱的牵拉作用，产生不同方向的移位，如近节指骨中段骨折，受骨间肌和蚓状肌的牵拉，而致向掌侧成角；中节指骨在指浅屈肌腱止点远侧骨折，由于其牵拉亦产生向掌侧成角;如在指浅屈肌腱止点近端骨折，则受伸肌腱牵拉造成向背侧成角。近节指骨基底部关节内骨折可分为副韧带撕裂、压缩骨折及纵形劈裂骨折3类。远节指骨骨折多为粉碎性骨折，常无明显移位;而远节指骨基底部背侧的撕脱骨折，通常形成', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1401, 'name': '舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '舟状骨骨折(fractures of scaphoid)占腕骨骨折的71.2%，多在舟状骨腰部发生，占舟状骨骨折的70%，舟骨结节及舟骨近端骨折各占10%～15%，骨折线先自掌、尺侧开始，后达背外侧，多见于年轻人，儿童罕见。舟状骨骨折同时有其他腕骨骨折及脱位时，预后不佳。 舟骨大部分为关节软骨覆盖，只有舟骨结节和腰的背外侧部有骨质裸露，滋养血管由此进入骨内并向四周分支供血。舟骨近侧2/3～3/4的血液来自腰部入骨的血管，远侧1/4～1/3则舟骨结节入骨的血管滋养。由腰入骨并向近极逆行供血的血管可因腰部骨折', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1376, 'name': '锁骨骨折', 'is_common': 0, 'initial': 'S', 'description': '锁骨呈S形架于胸骨柄与肩峰之间，是连接上肢与躯干之间的惟一骨性支架。锁骨位于皮下，表浅，受外力作用时易发生骨折，发生率占全身骨折的5%～10%。多发生在儿童及青壮年。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3027, 'name': '颞骨骨折', 'is_common': 0, 'initial': 'N', 'description': '颞骨骨折是颅底骨折的一部分，发生时常伴有不同程度的颅内或胸、腹部等组织和器官损伤。颞骨的岩部、鳞部和乳突部中以岩部骨折最常见，其原因是岩部含有各种孔隙、管道与气房，较为脆弱，故颅底骨折有1/3发生于此。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 65, 'disease_category_name': '耳鼻喉（头颈）外科'}]}, {'id': 2207, 'name': '胸骨骨折', 'is_common': 0, 'initial': 'X', 'description': '胸骨为坚韧扁骨，创伤性胸骨骨折约占胸部伤的1.5%～5%。多由直接暴力或作用于胸前的挤压力量所造成，如汽车撞压，房屋倒塌压伤，钝器打击伤，身体运动中前胸被硬物撞击等，脊柱过度屈曲亦可造成胸骨骨折。刀刺伤致胸骨不全骨折较少见。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 993, 'name': '舌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '舌骨呈蹄形，由舌骨体、大角(2个)和小角(2个)构成，是舌体的主要支持者，下方紧邻甲状软骨，舌骨大角有茎舌骨韧带与颞骨的茎突相连。舌骨大部分位于皮下。舌骨可呈先天性畸形，茎舌骨韧带可钙化或骨化与舌骨相连，正常人在20～30岁以前，舌骨体与舌骨大角无骨性连接者占50%以上。舌骨体与舌骨小角也有软骨相隔，茎舌骨韧带钙化或与舌骨骨性融合，或过早骨性连接都是骨折的诱因。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}, {'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1442, 'name': 'Chance骨折', 'is_common': 0, 'initial': 'C', 'description': '又称之为屈曲牵张性骨折，多见于高速公路安全带遇急刹车时上身突然前屈所致。近年来临床上常遇见此种骨折，亦可将其视为屈曲型骨折的一个特殊类型。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 3149, 'name': '牙槽骨骨折', 'is_common': 0, 'initial': 'Y', 'description': '牙槽骨骨折以上颌前部较多见，也可上、下颌同时发生。常伴有唇与牙龈的撕裂与肿胀。骨折片有明显的动度，摇动伤处1个牙时，可见骨折牙槽段上几个牙一起移动。由于骨折片移位，发生咬合错乱。常同时有牙折或牙脱位。如外力来自一侧面颊部，也可造成侧方后牙的牙槽骨骨折，如发生在上颌部，还可同时伴有腭部骨折或上颌窦损伤。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1418, 'name': '尺骨干骨折', 'is_common': 0, 'initial': 'C', 'description': '尺骨干骨折较相对少见，在诊治方面一般多无难题,经及时恰当处理，多数病人能恢复原来的功能，少数病人可留有不同程度的后遗症。。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1396, 'name': '足舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '足舟骨同楔骨和骰骨一起组成中跗关节，又称之跗横关节，这一关节易因外伤而引起脱位。所以，如足舟骨发生骨折，要警惕合并中跗关节的损伤。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1387, 'name': '桡骨干骨折', 'is_common': 0, 'initial': 'R', 'description': '单独桡骨干骨折，仅占前臂骨折总数的12%，以青壮年居多。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1384, 'name': '桡骨头骨折', 'is_common': 0, 'initial': 'R', 'description': '桡骨小头骨折是成年人容易发生的肘部损伤，通常疼痛症状较轻，临床上容易误诊。桡骨头的头、颈部骨折约占肘部损伤的6%，属于关节内骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1361, 'name': '肱骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '单纯的肱骨头骨折比较少见，是一种关节内骨折，主要因间接外力所致。骨折多见于青壮年，偶见于老年。根据骨折的不同程度可分为肱骨头裂折、肱骨头骨折脱位及肱骨头粉碎性骨折三个类型。  ', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1353, 'name': '股骨髁骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨髁骨折占全身骨折的0.4%，但其疗效却不满意。股骨髁周围有关节囊、韧带，肌肉及肌腱附着。骨折块受这些组织的牵拉，不易复位也不易维持复位，股骨髁骨折，可并发腘动脉、神经及其周围软组织的广泛损伤。在伴有相邻支持结构如侧副韧带，交叉韧带损伤时，可造成膝关节不稳定，也因股四头肌，髌上囊损伤而造成伸膝装置粘连，损害膝关节功能。骨折可造成股骨髁与胫骨平台，髌骨与股骨关节面之间，相应关节的破坏，改变了正常膝正常的解剖轴与机械轴，破坏了膝关节正常负荷与传导。股骨髁骨折易发生骨块分离而不产生塌陷，易于产生“T”或“Y”', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1351, 'name': '股骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨头骨折多因较强的间接暴力所致，可以单独发生，但更多的是合并于髋关节脱位。髋关节前脱位可合并股骨头上方的骨折;髋关节后脱位，可并发股骨头内下方的骨折或头上部的骨折，有时也可见到股骨头粉碎骨折。单纯股骨头骨折比较少见，常为髋关节损伤的一部分，例如髋关节后脱位并发股骨头骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3169, 'name': '下颌骨骨折', 'is_common': 0, 'initial': 'X', 'description': '下颌骨是颌面部体积最大、位置较突出的骨骼，容易遭受损伤，无论在平时或战时，其损伤的发生率均较高，居颌面骨骨折的首位。据国内外有关资料统计，下颌骨骨折的发生率占颌面损伤总数的25%～28%，而占颌面骨骨折的55%～72%。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3101, 'name': '上颌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}], 'size': 67, 'page_size': 20, 'page': 1}
+表格中的result为： 200
+获得的值为： {'list': [{'id': 3190, 'name': '颌骨骨折', 'is_common': 0, 'initial': 'H', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3032, 'name': '鼻骨骨折', 'is_common': 0, 'initial': 'B', 'description': '鼻是面部最突出的部位，容易受外力所伤，鼻骨骨折是耳鼻喉科常见的外伤，约占耳鼻喉科外伤疾病50%。鼻骨骨折可影响面部的外形及鼻腔的通气功能。鼻骨骨折可单独发生，严重者可合并鼻中隔骨折、软骨脱位、上颌骨额突、鼻窦、眶壁、颅底等的外伤，导致相应部位结构及功能的异常。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1456, 'name': '骶骨骨折', 'is_common': 0, 'initial': 'D', 'description': '骶骨骨折可单独发生，亦可与骨盆损伤同时出现;前者较少见，而后者在骨盆骨折中约占30%～40%，因此，其绝对发生率远较单发者为高，且以男性多见;在治疗上亦较复杂，需与骨盆骨折的治疗一并考虑。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 1402, 'name': '指骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '指骨骨折在手部最为常见，多为开放性骨折。且多为直接暴力所致，可于手指的任何部位导致各种不同类型的骨折。指骨骨折由于部位不同，受到来自不同方向的肌腱的牵拉作用，产生不同方向的移位，如近节指骨中段骨折，受骨间肌和蚓状肌的牵拉，而致向掌侧成角；中节指骨在指浅屈肌腱止点远侧骨折，由于其牵拉亦产生向掌侧成角;如在指浅屈肌腱止点近端骨折，则受伸肌腱牵拉造成向背侧成角。近节指骨基底部关节内骨折可分为副韧带撕裂、压缩骨折及纵形劈裂骨折3类。远节指骨骨折多为粉碎性骨折，常无明显移位;而远节指骨基底部背侧的撕脱骨折，通常形成', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1401, 'name': '舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '舟状骨骨折(fractures of scaphoid)占腕骨骨折的71.2%，多在舟状骨腰部发生，占舟状骨骨折的70%，舟骨结节及舟骨近端骨折各占10%～15%，骨折线先自掌、尺侧开始，后达背外侧，多见于年轻人，儿童罕见。舟状骨骨折同时有其他腕骨骨折及脱位时，预后不佳。 舟骨大部分为关节软骨覆盖，只有舟骨结节和腰的背外侧部有骨质裸露，滋养血管由此进入骨内并向四周分支供血。舟骨近侧2/3～3/4的血液来自腰部入骨的血管，远侧1/4～1/3则舟骨结节入骨的血管滋养。由腰入骨并向近极逆行供血的血管可因腰部骨折', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1376, 'name': '锁骨骨折', 'is_common': 0, 'initial': 'S', 'description': '锁骨呈S形架于胸骨柄与肩峰之间，是连接上肢与躯干之间的惟一骨性支架。锁骨位于皮下，表浅，受外力作用时易发生骨折，发生率占全身骨折的5%～10%。多发生在儿童及青壮年。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3027, 'name': '颞骨骨折', 'is_common': 0, 'initial': 'N', 'description': '颞骨骨折是颅底骨折的一部分，发生时常伴有不同程度的颅内或胸、腹部等组织和器官损伤。颞骨的岩部、鳞部和乳突部中以岩部骨折最常见，其原因是岩部含有各种孔隙、管道与气房，较为脆弱，故颅底骨折有1/3发生于此。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 65, 'disease_category_name': '耳鼻喉（头颈）外科'}]}, {'id': 2207, 'name': '胸骨骨折', 'is_common': 0, 'initial': 'X', 'description': '胸骨为坚韧扁骨，创伤性胸骨骨折约占胸部伤的1.5%～5%。多由直接暴力或作用于胸前的挤压力量所造成，如汽车撞压，房屋倒塌压伤，钝器打击伤，身体运动中前胸被硬物撞击等，脊柱过度屈曲亦可造成胸骨骨折。刀刺伤致胸骨不全骨折较少见。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 993, 'name': '舌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '舌骨呈蹄形，由舌骨体、大角(2个)和小角(2个)构成，是舌体的主要支持者，下方紧邻甲状软骨，舌骨大角有茎舌骨韧带与颞骨的茎突相连。舌骨大部分位于皮下。舌骨可呈先天性畸形，茎舌骨韧带可钙化或骨化与舌骨相连，正常人在20～30岁以前，舌骨体与舌骨大角无骨性连接者占50%以上。舌骨体与舌骨小角也有软骨相隔，茎舌骨韧带钙化或与舌骨骨性融合，或过早骨性连接都是骨折的诱因。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}, {'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1442, 'name': 'Chance骨折', 'is_common': 0, 'initial': 'C', 'description': '又称之为屈曲牵张性骨折，多见于高速公路安全带遇急刹车时上身突然前屈所致。近年来临床上常遇见此种骨折，亦可将其视为屈曲型骨折的一个特殊类型。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 3149, 'name': '牙槽骨骨折', 'is_common': 0, 'initial': 'Y', 'description': '牙槽骨骨折以上颌前部较多见，也可上、下颌同时发生。常伴有唇与牙龈的撕裂与肿胀。骨折片有明显的动度，摇动伤处1个牙时，可见骨折牙槽段上几个牙一起移动。由于骨折片移位，发生咬合错乱。常同时有牙折或牙脱位。如外力来自一侧面颊部，也可造成侧方后牙的牙槽骨骨折，如发生在上颌部，还可同时伴有腭部骨折或上颌窦损伤。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 1418, 'name': '尺骨干骨折', 'is_common': 0, 'initial': 'C', 'description': '尺骨干骨折较相对少见，在诊治方面一般多无难题,经及时恰当处理，多数病人能恢复原来的功能，少数病人可留有不同程度的后遗症。。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1396, 'name': '足舟骨骨折', 'is_common': 0, 'initial': 'Z', 'description': '足舟骨同楔骨和骰骨一起组成中跗关节，又称之跗横关节，这一关节易因外伤而引起脱位。所以，如足舟骨发生骨折，要警惕合并中跗关节的损伤。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1387, 'name': '桡骨干骨折', 'is_common': 0, 'initial': 'R', 'description': '单独桡骨干骨折，仅占前臂骨折总数的12%，以青壮年居多。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1384, 'name': '桡骨头骨折', 'is_common': 0, 'initial': 'R', 'description': '桡骨小头骨折是成年人容易发生的肘部损伤，通常疼痛症状较轻，临床上容易误诊。桡骨头的头、颈部骨折约占肘部损伤的6%，属于关节内骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1361, 'name': '肱骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '单纯的肱骨头骨折比较少见，是一种关节内骨折，主要因间接外力所致。骨折多见于青壮年，偶见于老年。根据骨折的不同程度可分为肱骨头裂折、肱骨头骨折脱位及肱骨头粉碎性骨折三个类型。  ', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1353, 'name': '股骨髁骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨髁骨折占全身骨折的0.4%，但其疗效却不满意。股骨髁周围有关节囊、韧带，肌肉及肌腱附着。骨折块受这些组织的牵拉，不易复位也不易维持复位，股骨髁骨折，可并发腘动脉、神经及其周围软组织的广泛损伤。在伴有相邻支持结构如侧副韧带，交叉韧带损伤时，可造成膝关节不稳定，也因股四头肌，髌上囊损伤而造成伸膝装置粘连，损害膝关节功能。骨折可造成股骨髁与胫骨平台，髌骨与股骨关节面之间，相应关节的破坏，改变了正常膝正常的解剖轴与机械轴，破坏了膝关节正常负荷与传导。股骨髁骨折易发生骨块分离而不产生塌陷，易于产生“T”或“Y”', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 1351, 'name': '股骨头骨折', 'is_common': 0, 'initial': 'G', 'description': '股骨头骨折多因较强的间接暴力所致，可以单独发生，但更多的是合并于髋关节脱位。髋关节前脱位可合并股骨头上方的骨折;髋关节后脱位，可并发股骨头内下方的骨折或头上部的骨折，有时也可见到股骨头粉碎骨折。单纯股骨头骨折比较少见，常为髋关节损伤的一部分，例如髋关节后脱位并发股骨头骨折。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 24, 'disease_category_name': '创伤外科'}]}, {'id': 3169, 'name': '下颌骨骨折', 'is_common': 0, 'initial': 'X', 'description': '下颌骨是颌面部体积最大、位置较突出的骨骼，容易遭受损伤，无论在平时或战时，其损伤的发生率均较高，居颌面骨骨折的首位。据国内外有关资料统计，下颌骨骨折的发生率占颌面损伤总数的25%～28%，而占颌面骨骨折的55%～72%。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}, {'id': 3101, 'name': '上颌骨骨折', 'is_common': 0, 'initial': 'S', 'description': '颌骨骨折包括上颌骨骨折和下颌骨骨折，分为开放性骨折和闭合性骨折。根据致伤原因，又可分为火器性损伤和非火器性损伤两大类。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 70, 'disease_category_name': '口腔（颌面）外科'}]}], 'size': 67, 'page_size': 20, 'page': 1}
+list的长度 20
+第 0 个list中的id为： 3190
+第 1 个list中的id为： 3032
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 122, in tearDown
+    self.log.build_case_line(self.case_name, 'code', 'message')
+TypeError: build_case_line() missing 1 required positional argument: 'data'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>paramunittest.GetDiseasesList_1</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',2)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='ft5_1' class='none'>
+    <td class='failCase'><div class='testcase'>testGetDisease</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_1'>失败</button>
+    <div id='div_ft5_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_1'>失败</button>
+    <div id='div_ft5_1' class="collapse in" align="left">
+    <pre>
+    
+ft5_1: getUncommonDisease测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/diseases
+第二步：设置header(token等)
+第二步：设置发送请求的参数 {'isCommon': '1', 'name': '', 'parentCategoryId': '', 'categoryId': '', 'relatedDoctor': '', 'page': '1', 'pageSize': '20'}
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 4605, 'name': '骨囊肿', 'is_common': 1, 'initial': 'G', 'description': '骨囊肿为良性病变，亦称单纯性骨囊肿或孤立性骨囊肿。病因尚未明了。有学者认为骨囊肿是由于骨内血管末梢阻塞，血液瘀滞所致；也有认为本病系某种肿瘤、炎症组织的退行性变，其生长、代谢阻碍的结果或与骨发育异常有关；也有认为可能系外伤出血形成局限性包囊，进而局部吸收骨化而成。骨囊肿较小者可因骨折后骨痂而消失；囊肿较大者也可因之缩小；偶尔可因血肿骨化而消失。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 9, 'disease_category_name': '骨与软组织肿瘤'}]}, {'id': 4604, 'name': '肺结节', 'is_common': 1, 'initial': 'F', 'description': '肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4598, 'name': '翼状胬肉', 'is_common': 1, 'initial': 'Y', 'description': '翼状胬肉是眼科常见病和多发病，中医称“胬肉攀睛”，俗称“鱼肉”。一般认为它是受外界剌激而引起的一种慢性炎症性病变，单眼或双眼受犯，因其形状酷似昆虫的翅膀故名。为睑裂部球结膜与角膜上一种赘生组织，侵犯角膜后日渐增大，甚至可覆盖至瞳孔区而严重影响视力。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 57, 'disease_category_name': '眼科'}]}, {'id': 4590, 'name': '外阴癌', 'is_common': 1, 'initial': 'W', 'description': '外阴癌（carcinoma of vulva）为起源于外阴部皮肤、粘膜及其附属器官和前庭大腺等的恶性肿瘤。外阴癌主要发生于老年妇女，平均发病年龄为60－70岁，但近年来随着HPV感染的增加，外阴癌在年轻妇女中也时有发生。', 'category_list': [{'parent_disease_category_id': 15, 'parent_disease_category_name': '妇产科专业', 'disease_category_id': 76, 'disease_category_name': '妇科'}, {'parent_disease_category_id': 19, 'parent_disease_category_name': '肿瘤专业', 'disease_category_id': 12, 'disease_category_name': '妇科肿瘤'}]}, {'id': 4589, 'name': '鼻部整形', 'is_common': 1, 'initial': 'B', 'description': '鼻部整形就是通过手术来重新塑形鼻子，是整形美容外科中最常见的手术之一。鼻整形术能够增加或缩小鼻子的大小；改变鼻背或鼻尖的形状；缩小鼻孔和改变鼻子与上唇的角度等，鼻整形术也能矫正某些先天性或外伤后的畸形。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 54, 'disease_category_name': '整形烧伤科'}]}, {'id': 4571, 'name': '三叉神经痛', 'is_common': 1, 'initial': 'S', 'description': '三叉神经痛是最常见的脑神经疾病，以一侧面部三叉神经分布区内反复发作的阵发性剧烈痛为主要表现. 该病的特点是：在头面部三叉神经分布区域内，发病骤发，骤停、闪电样、刀割样、烧灼样、顽固性、难以忍受的剧烈性疼痛。说话、洗脸、刷牙或微风拂面，甚至走路时都会导致阵发性时的剧烈疼痛。疼痛历时数秒或数分钟，疼痛呈周期性发作，发作间歇期同正常人一样。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4444, 'name': '手汗症', 'is_common': 1, 'initial': 'S', 'description': '手汗症为相当常见的一种原因不明的功能性局部异常多汗。因为人种上的特异性，生长在亚热带地区的年轻人，特别容易有此毛病。汗腺的分泌是经由交感神经所控制的，而手汗症即是因不明原因的交感神经过度紧张，例如紧张、兴奋、压力或夏天高温造成手掌排汗异常增加所致。 手汗症不分男女都有可能发生，在东方民族的年轻人中相当常见，有家族性的可达12%。曾有见到父母均有多汗症者，4个孩子均有程度不等的多汗。许多手掌多汗患者有家族史，但并非一定会遗传给下一代。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 7, 'disease_category_name': '神经外科'}, {'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4443, 'name': 'DISH病', 'is_common': 1, 'initial': 'D', 'description': '弥漫性特发性骨肥厚症( diffuse idiopathic skeletal hyperostosis, DISH) 是一种原因不明的韧带骨化及骨质增生，是一种常见的随年龄增长而逐渐增多的疾病，可能与代谢或内分泌的变化有关，在病理上属退行性病变', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 4442, 'name': '小儿银屑病', 'is_common': 1, 'initial': 'X', 'description': '小儿银屑病与链球菌感染、遗传因素更为密切，绝大多数患者发病前有扁桃体炎或上呼吸道感染史，半数以上的患儿伴有扁桃体慢性肿大，70%左右的患儿有明显的家族史。皮损以寻常型、点滴状为主，关节型及甲损害较少见。皮损常有冬季重、夏季轻的现象。由于初发皮疹常随感冒发烧而出现和消退，而且皮疹与其他原因造成的皮疹(病毒性、药物性等)没有特别明显的差异，所以容易被忽略或误诊。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4441, 'name': '小儿白癜风', 'is_common': 1, 'initial': 'X', 'description': '小儿白癜风(vitiligo)是一种儿童常见多发的色素性皮肤病。该病以局部或泛发性色素脱失形成白斑为特征，是一种获得性局限性或泛发性皮肤色素脱失症，是一影响美容的常见皮肤病，易诊断，治疗难。中医医学称之为“白癜风”或“白驳风”。白癜风是后天性因皮肤色素脱失而发生的局限性白色斑片，使得局部皮肤呈白斑样。医学上通常把这种病变叫色素脱失。 此病世界各地均有发生，印度发病率最高，我国约有万人发病，可以累及所有种族，男女发病无显著差别。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4440, 'name': '小儿过敏性皮炎', 'is_common': 1, 'initial': 'X', 'description': '小儿过敏性皮炎是由于接触过敏性抗原引起的皮肤过敏反应，它主要是由IgE介导的I型变态反应。凡对特异性抗原有遗传的或体质上易感的人，在接触这种抗原时，可导致速发型或迟发型过敏性皮炎，主要是指人体接触到某些过敏源而引起皮肤红肿、发痒、风团、脱皮等皮肤病症。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4439, 'name': '小儿湿疹', 'is_common': 1, 'initial': 'X', 'description': '小儿湿疹，即特应性皮炎（atopic dermatitis，AD），又称为遗传过敏性皮炎、异位性皮炎，是一种慢性、复发性、炎症性皮肤病。多于婴幼儿时期发病，并迁延至儿童和成人期。以湿疹样皮疹，伴剧烈瘙痒，反复发作为临床特点，病患本人或家族中常有明显的“特应性”，严重影响生活质量。主要是对食入物、吸入物或接触物不耐受或过敏所致。患有湿疹的孩子起初皮肤发红、出现皮疹、继之皮肤发糙、脱屑，抚摩孩子的皮肤如同触摸在砂纸上一样。遇热、遇湿都可使湿疹表现显著。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4438, 'name': '神经系统疾病', 'is_common': 1, 'initial': 'S', 'description': '神经系统疾病是发生于中枢神经系统、周围神经系统、植物神经系统的以感觉、运动、意识、植物神经功能障碍为主要表现的疾病。又称神经病。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4437, 'name': '下咽癌', 'is_common': 1, 'initial': 'X', 'description': '下咽部在临床上分为3个解剖区：梨状窝、环状软骨后区（简称环后区）、喉咽后壁区。在原发性喉咽恶性肿瘤中，绝大多数（约95%）为鳞状细胞癌。国外资料统计，喉咽癌的发病率为0.8/10万。上海市（1986）的统计资料显示：男性的发病率为0．15/10万，女性为0.02/10万。中国医学科学院肿瘤医院在收治病例统计中发现，喉咽恶性肿瘤占头颈部恶性肿瘤的1.4%，占全身恶性肿瘤的0.2%。喉咽癌多发生在梨状窝，其次为喉咽后壁，环后区最少。梨状窝癌和喉咽后壁癌多发生在男性，而环后癌多发生在女性。喉咽癌的好发年龄为50～70岁。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4436, 'name': '喉癌', 'is_common': 1, 'initial': 'H', 'description': '喉癌分原发性和继发性两种。原发性喉癌指原发部位在喉部的肿瘤，以鳞状细胞癌最为常见。继发性喉癌指来自其他部位的恶性肿瘤转移至喉部，较为少见。喉癌症状主要为声嘶、呼吸困难、咳嗽、吞咽困难、颈部淋巴结转移等。高危人群应当注意戒烟，适当饮酒，做好预防工作。早期发现，早期诊疗对于减轻喉癌的危害非常重要，一方面可提高患者术后生存率，另外有可能尽量保留喉的发音功能，减少术后并发症。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4435, 'name': '头颈部肿瘤', 'is_common': 1, 'initial': 'T', 'description': '头颈部肿瘤包括颈部肿瘤、耳鼻喉科肿瘤以及口腔颌面部肿瘤三大部分。颈部肿瘤在综合性医院属于普通外科，比较常见的就是甲状腺肿瘤；耳鼻喉科肿瘤常见的有喉癌、副鼻窦癌等；口腔颌面部肿瘤常见的为各种口腔癌 ，如舌癌、牙龈癌、颊癌等', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4434, 'name': '支气管扩张', 'is_common': 1, 'initial': 'Z', 'description': '支气管扩张是由于支气管及其周围肺组织慢性化脓性炎症和纤维化，使支气管壁的肌肉和弹性组织破坏，导致支气管变形及持久扩张。典型的症状有慢性咳嗽、咳大量脓痰和反复咯血。主要致病因素为支气管感染、阻塞和牵拉，部分有先天遗传因素。患者多有麻疹、百日咳或支气管肺炎等病史。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4433, 'name': '胸腔积液', 'is_common': 1, 'initial': 'X', 'description': '胸腔积液（pleural effusion）是以胸膜腔内病理性液体积聚为特征的一种常见临床症候。胸膜腔为脏层和壁层胸膜之间的一个潜在间隙，正常人胸膜腔内有5～15ml液体，在呼吸运动时起润滑作用，胸膜腔内每天有500～1000ml的液体形成与吸收，任何原因导致胸膜腔内液体产生增多或吸收减少，即可产生胸腔积液。按其发生机制可分为漏出性胸腔积液和渗出性胸腔积液两类。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4432, 'name': '小儿支气管炎', 'is_common': 1, 'initial': 'X', 'description': '小儿支气管炎系指支气管发生炎症，小儿毛细支气管炎的病变主要发生在肺部的细小支气管，也就是毛细支气管，所以病名为“毛细支气管炎”，通常是由普通感冒，流行性感冒等病毒性感染引起的并发症，也可能由细菌感染所致，是小儿常见的一种急性上呼吸道感染。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4431, 'name': '小儿哮喘', 'is_common': 1, 'initial': 'X', 'description': '小儿哮喘（infantile asthma）是小儿常见的肺部疾患，是一种表现反复发作性咳嗽，喘鸣和呼吸困难，并伴有气道高反应性的可逆性、梗阻性呼吸道疾病。哮喘是一种严重危害儿童身体健康的常见慢性呼吸道疾病，其发病率高，常表现为反复发作的慢性病程，严重影响了患儿的学习、生活及活动，影响儿童的生长发育。不少哮喘患儿由于治疗不及时或治疗不当最终发展为成人哮喘而迁延不愈，肺功能受损，部分患儿甚至完全丧失体力活动能力。严重哮喘发作，若未得到及时有效治疗，可以致命。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}], 'size': 732, 'page_size': 20, 'page': 1}
+表格中的result为： 200
+获得的值为： {'list': [{'id': 4605, 'name': '骨囊肿', 'is_common': 1, 'initial': 'G', 'description': '骨囊肿为良性病变，亦称单纯性骨囊肿或孤立性骨囊肿。病因尚未明了。有学者认为骨囊肿是由于骨内血管末梢阻塞，血液瘀滞所致；也有认为本病系某种肿瘤、炎症组织的退行性变，其生长、代谢阻碍的结果或与骨发育异常有关；也有认为可能系外伤出血形成局限性包囊，进而局部吸收骨化而成。骨囊肿较小者可因骨折后骨痂而消失；囊肿较大者也可因之缩小；偶尔可因血肿骨化而消失。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 9, 'disease_category_name': '骨与软组织肿瘤'}]}, {'id': 4604, 'name': '肺结节', 'is_common': 1, 'initial': 'F', 'description': '肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4598, 'name': '翼状胬肉', 'is_common': 1, 'initial': 'Y', 'description': '翼状胬肉是眼科常见病和多发病，中医称“胬肉攀睛”，俗称“鱼肉”。一般认为它是受外界剌激而引起的一种慢性炎症性病变，单眼或双眼受犯，因其形状酷似昆虫的翅膀故名。为睑裂部球结膜与角膜上一种赘生组织，侵犯角膜后日渐增大，甚至可覆盖至瞳孔区而严重影响视力。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 57, 'disease_category_name': '眼科'}]}, {'id': 4590, 'name': '外阴癌', 'is_common': 1, 'initial': 'W', 'description': '外阴癌（carcinoma of vulva）为起源于外阴部皮肤、粘膜及其附属器官和前庭大腺等的恶性肿瘤。外阴癌主要发生于老年妇女，平均发病年龄为60－70岁，但近年来随着HPV感染的增加，外阴癌在年轻妇女中也时有发生。', 'category_list': [{'parent_disease_category_id': 15, 'parent_disease_category_name': '妇产科专业', 'disease_category_id': 76, 'disease_category_name': '妇科'}, {'parent_disease_category_id': 19, 'parent_disease_category_name': '肿瘤专业', 'disease_category_id': 12, 'disease_category_name': '妇科肿瘤'}]}, {'id': 4589, 'name': '鼻部整形', 'is_common': 1, 'initial': 'B', 'description': '鼻部整形就是通过手术来重新塑形鼻子，是整形美容外科中最常见的手术之一。鼻整形术能够增加或缩小鼻子的大小；改变鼻背或鼻尖的形状；缩小鼻孔和改变鼻子与上唇的角度等，鼻整形术也能矫正某些先天性或外伤后的畸形。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 54, 'disease_category_name': '整形烧伤科'}]}, {'id': 4571, 'name': '三叉神经痛', 'is_common': 1, 'initial': 'S', 'description': '三叉神经痛是最常见的脑神经疾病，以一侧面部三叉神经分布区内反复发作的阵发性剧烈痛为主要表现. 该病的特点是：在头面部三叉神经分布区域内，发病骤发，骤停、闪电样、刀割样、烧灼样、顽固性、难以忍受的剧烈性疼痛。说话、洗脸、刷牙或微风拂面，甚至走路时都会导致阵发性时的剧烈疼痛。疼痛历时数秒或数分钟，疼痛呈周期性发作，发作间歇期同正常人一样。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4444, 'name': '手汗症', 'is_common': 1, 'initial': 'S', 'description': '手汗症为相当常见的一种原因不明的功能性局部异常多汗。因为人种上的特异性，生长在亚热带地区的年轻人，特别容易有此毛病。汗腺的分泌是经由交感神经所控制的，而手汗症即是因不明原因的交感神经过度紧张，例如紧张、兴奋、压力或夏天高温造成手掌排汗异常增加所致。 手汗症不分男女都有可能发生，在东方民族的年轻人中相当常见，有家族性的可达12%。曾有见到父母均有多汗症者，4个孩子均有程度不等的多汗。许多手掌多汗患者有家族史，但并非一定会遗传给下一代。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 7, 'disease_category_name': '神经外科'}, {'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4443, 'name': 'DISH病', 'is_common': 1, 'initial': 'D', 'description': '弥漫性特发性骨肥厚症( diffuse idiopathic skeletal hyperostosis, DISH) 是一种原因不明的韧带骨化及骨质增生，是一种常见的随年龄增长而逐渐增多的疾病，可能与代谢或内分泌的变化有关，在病理上属退行性病变', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 4442, 'name': '小儿银屑病', 'is_common': 1, 'initial': 'X', 'description': '小儿银屑病与链球菌感染、遗传因素更为密切，绝大多数患者发病前有扁桃体炎或上呼吸道感染史，半数以上的患儿伴有扁桃体慢性肿大，70%左右的患儿有明显的家族史。皮损以寻常型、点滴状为主，关节型及甲损害较少见。皮损常有冬季重、夏季轻的现象。由于初发皮疹常随感冒发烧而出现和消退，而且皮疹与其他原因造成的皮疹(病毒性、药物性等)没有特别明显的差异，所以容易被忽略或误诊。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4441, 'name': '小儿白癜风', 'is_common': 1, 'initial': 'X', 'description': '小儿白癜风(vitiligo)是一种儿童常见多发的色素性皮肤病。该病以局部或泛发性色素脱失形成白斑为特征，是一种获得性局限性或泛发性皮肤色素脱失症，是一影响美容的常见皮肤病，易诊断，治疗难。中医医学称之为“白癜风”或“白驳风”。白癜风是后天性因皮肤色素脱失而发生的局限性白色斑片，使得局部皮肤呈白斑样。医学上通常把这种病变叫色素脱失。 此病世界各地均有发生，印度发病率最高，我国约有万人发病，可以累及所有种族，男女发病无显著差别。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4440, 'name': '小儿过敏性皮炎', 'is_common': 1, 'initial': 'X', 'description': '小儿过敏性皮炎是由于接触过敏性抗原引起的皮肤过敏反应，它主要是由IgE介导的I型变态反应。凡对特异性抗原有遗传的或体质上易感的人，在接触这种抗原时，可导致速发型或迟发型过敏性皮炎，主要是指人体接触到某些过敏源而引起皮肤红肿、发痒、风团、脱皮等皮肤病症。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4439, 'name': '小儿湿疹', 'is_common': 1, 'initial': 'X', 'description': '小儿湿疹，即特应性皮炎（atopic dermatitis，AD），又称为遗传过敏性皮炎、异位性皮炎，是一种慢性、复发性、炎症性皮肤病。多于婴幼儿时期发病，并迁延至儿童和成人期。以湿疹样皮疹，伴剧烈瘙痒，反复发作为临床特点，病患本人或家族中常有明显的“特应性”，严重影响生活质量。主要是对食入物、吸入物或接触物不耐受或过敏所致。患有湿疹的孩子起初皮肤发红、出现皮疹、继之皮肤发糙、脱屑，抚摩孩子的皮肤如同触摸在砂纸上一样。遇热、遇湿都可使湿疹表现显著。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4438, 'name': '神经系统疾病', 'is_common': 1, 'initial': 'S', 'description': '神经系统疾病是发生于中枢神经系统、周围神经系统、植物神经系统的以感觉、运动、意识、植物神经功能障碍为主要表现的疾病。又称神经病。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4437, 'name': '下咽癌', 'is_common': 1, 'initial': 'X', 'description': '下咽部在临床上分为3个解剖区：梨状窝、环状软骨后区（简称环后区）、喉咽后壁区。在原发性喉咽恶性肿瘤中，绝大多数（约95%）为鳞状细胞癌。国外资料统计，喉咽癌的发病率为0.8/10万。上海市（1986）的统计资料显示：男性的发病率为0．15/10万，女性为0.02/10万。中国医学科学院肿瘤医院在收治病例统计中发现，喉咽恶性肿瘤占头颈部恶性肿瘤的1.4%，占全身恶性肿瘤的0.2%。喉咽癌多发生在梨状窝，其次为喉咽后壁，环后区最少。梨状窝癌和喉咽后壁癌多发生在男性，而环后癌多发生在女性。喉咽癌的好发年龄为50～70岁。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4436, 'name': '喉癌', 'is_common': 1, 'initial': 'H', 'description': '喉癌分原发性和继发性两种。原发性喉癌指原发部位在喉部的肿瘤，以鳞状细胞癌最为常见。继发性喉癌指来自其他部位的恶性肿瘤转移至喉部，较为少见。喉癌症状主要为声嘶、呼吸困难、咳嗽、吞咽困难、颈部淋巴结转移等。高危人群应当注意戒烟，适当饮酒，做好预防工作。早期发现，早期诊疗对于减轻喉癌的危害非常重要，一方面可提高患者术后生存率，另外有可能尽量保留喉的发音功能，减少术后并发症。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4435, 'name': '头颈部肿瘤', 'is_common': 1, 'initial': 'T', 'description': '头颈部肿瘤包括颈部肿瘤、耳鼻喉科肿瘤以及口腔颌面部肿瘤三大部分。颈部肿瘤在综合性医院属于普通外科，比较常见的就是甲状腺肿瘤；耳鼻喉科肿瘤常见的有喉癌、副鼻窦癌等；口腔颌面部肿瘤常见的为各种口腔癌 ，如舌癌、牙龈癌、颊癌等', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4434, 'name': '支气管扩张', 'is_common': 1, 'initial': 'Z', 'description': '支气管扩张是由于支气管及其周围肺组织慢性化脓性炎症和纤维化，使支气管壁的肌肉和弹性组织破坏，导致支气管变形及持久扩张。典型的症状有慢性咳嗽、咳大量脓痰和反复咯血。主要致病因素为支气管感染、阻塞和牵拉，部分有先天遗传因素。患者多有麻疹、百日咳或支气管肺炎等病史。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4433, 'name': '胸腔积液', 'is_common': 1, 'initial': 'X', 'description': '胸腔积液（pleural effusion）是以胸膜腔内病理性液体积聚为特征的一种常见临床症候。胸膜腔为脏层和壁层胸膜之间的一个潜在间隙，正常人胸膜腔内有5～15ml液体，在呼吸运动时起润滑作用，胸膜腔内每天有500～1000ml的液体形成与吸收，任何原因导致胸膜腔内液体产生增多或吸收减少，即可产生胸腔积液。按其发生机制可分为漏出性胸腔积液和渗出性胸腔积液两类。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4432, 'name': '小儿支气管炎', 'is_common': 1, 'initial': 'X', 'description': '小儿支气管炎系指支气管发生炎症，小儿毛细支气管炎的病变主要发生在肺部的细小支气管，也就是毛细支气管，所以病名为“毛细支气管炎”，通常是由普通感冒，流行性感冒等病毒性感染引起的并发症，也可能由细菌感染所致，是小儿常见的一种急性上呼吸道感染。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4431, 'name': '小儿哮喘', 'is_common': 1, 'initial': 'X', 'description': '小儿哮喘（infantile asthma）是小儿常见的肺部疾患，是一种表现反复发作性咳嗽，喘鸣和呼吸困难，并伴有气道高反应性的可逆性、梗阻性呼吸道疾病。哮喘是一种严重危害儿童身体健康的常见慢性呼吸道疾病，其发病率高，常表现为反复发作的慢性病程，严重影响了患儿的学习、生活及活动，影响儿童的生长发育。不少哮喘患儿由于治疗不及时或治疗不当最终发展为成人哮喘而迁延不愈，肺功能受损，部分患儿甚至完全丧失体力活动能力。严重哮喘发作，若未得到及时有效治疗，可以致命。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}], 'size': 732, 'page_size': 20, 'page': 1}
+list的长度 20
+第 0 个list中的id为： 4605
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 106, in testGetDisease
+    self.checkResult()
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 148, in checkResult
+    self.assertEqual(str(s1['list'][i]['id']), '3190')
+AssertionError: '4605' != '3190'
+- 4605
++ 3190
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_2' class='none'>
+    <td class='errorCase'><div class='testcase'>testGetDisease</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse in" align="left">
+    <pre>
+    
+ft5_2: getUncommonDisease测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/diseases
+第二步：设置header(token等)
+第二步：设置发送请求的参数 {'isCommon': '1', 'name': '', 'parentCategoryId': '', 'categoryId': '', 'relatedDoctor': '', 'page': '1', 'pageSize': '20'}
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 4605, 'name': '骨囊肿', 'is_common': 1, 'initial': 'G', 'description': '骨囊肿为良性病变，亦称单纯性骨囊肿或孤立性骨囊肿。病因尚未明了。有学者认为骨囊肿是由于骨内血管末梢阻塞，血液瘀滞所致；也有认为本病系某种肿瘤、炎症组织的退行性变，其生长、代谢阻碍的结果或与骨发育异常有关；也有认为可能系外伤出血形成局限性包囊，进而局部吸收骨化而成。骨囊肿较小者可因骨折后骨痂而消失；囊肿较大者也可因之缩小；偶尔可因血肿骨化而消失。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 9, 'disease_category_name': '骨与软组织肿瘤'}]}, {'id': 4604, 'name': '肺结节', 'is_common': 1, 'initial': 'F', 'description': '肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4598, 'name': '翼状胬肉', 'is_common': 1, 'initial': 'Y', 'description': '翼状胬肉是眼科常见病和多发病，中医称“胬肉攀睛”，俗称“鱼肉”。一般认为它是受外界剌激而引起的一种慢性炎症性病变，单眼或双眼受犯，因其形状酷似昆虫的翅膀故名。为睑裂部球结膜与角膜上一种赘生组织，侵犯角膜后日渐增大，甚至可覆盖至瞳孔区而严重影响视力。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 57, 'disease_category_name': '眼科'}]}, {'id': 4590, 'name': '外阴癌', 'is_common': 1, 'initial': 'W', 'description': '外阴癌（carcinoma of vulva）为起源于外阴部皮肤、粘膜及其附属器官和前庭大腺等的恶性肿瘤。外阴癌主要发生于老年妇女，平均发病年龄为60－70岁，但近年来随着HPV感染的增加，外阴癌在年轻妇女中也时有发生。', 'category_list': [{'parent_disease_category_id': 15, 'parent_disease_category_name': '妇产科专业', 'disease_category_id': 76, 'disease_category_name': '妇科'}, {'parent_disease_category_id': 19, 'parent_disease_category_name': '肿瘤专业', 'disease_category_id': 12, 'disease_category_name': '妇科肿瘤'}]}, {'id': 4589, 'name': '鼻部整形', 'is_common': 1, 'initial': 'B', 'description': '鼻部整形就是通过手术来重新塑形鼻子，是整形美容外科中最常见的手术之一。鼻整形术能够增加或缩小鼻子的大小；改变鼻背或鼻尖的形状；缩小鼻孔和改变鼻子与上唇的角度等，鼻整形术也能矫正某些先天性或外伤后的畸形。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 54, 'disease_category_name': '整形烧伤科'}]}, {'id': 4571, 'name': '三叉神经痛', 'is_common': 1, 'initial': 'S', 'description': '三叉神经痛是最常见的脑神经疾病，以一侧面部三叉神经分布区内反复发作的阵发性剧烈痛为主要表现. 该病的特点是：在头面部三叉神经分布区域内，发病骤发，骤停、闪电样、刀割样、烧灼样、顽固性、难以忍受的剧烈性疼痛。说话、洗脸、刷牙或微风拂面，甚至走路时都会导致阵发性时的剧烈疼痛。疼痛历时数秒或数分钟，疼痛呈周期性发作，发作间歇期同正常人一样。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4444, 'name': '手汗症', 'is_common': 1, 'initial': 'S', 'description': '手汗症为相当常见的一种原因不明的功能性局部异常多汗。因为人种上的特异性，生长在亚热带地区的年轻人，特别容易有此毛病。汗腺的分泌是经由交感神经所控制的，而手汗症即是因不明原因的交感神经过度紧张，例如紧张、兴奋、压力或夏天高温造成手掌排汗异常增加所致。 手汗症不分男女都有可能发生，在东方民族的年轻人中相当常见，有家族性的可达12%。曾有见到父母均有多汗症者，4个孩子均有程度不等的多汗。许多手掌多汗患者有家族史，但并非一定会遗传给下一代。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 7, 'disease_category_name': '神经外科'}, {'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4443, 'name': 'DISH病', 'is_common': 1, 'initial': 'D', 'description': '弥漫性特发性骨肥厚症( diffuse idiopathic skeletal hyperostosis, DISH) 是一种原因不明的韧带骨化及骨质增生，是一种常见的随年龄增长而逐渐增多的疾病，可能与代谢或内分泌的变化有关，在病理上属退行性病变', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 4442, 'name': '小儿银屑病', 'is_common': 1, 'initial': 'X', 'description': '小儿银屑病与链球菌感染、遗传因素更为密切，绝大多数患者发病前有扁桃体炎或上呼吸道感染史，半数以上的患儿伴有扁桃体慢性肿大，70%左右的患儿有明显的家族史。皮损以寻常型、点滴状为主，关节型及甲损害较少见。皮损常有冬季重、夏季轻的现象。由于初发皮疹常随感冒发烧而出现和消退，而且皮疹与其他原因造成的皮疹(病毒性、药物性等)没有特别明显的差异，所以容易被忽略或误诊。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4441, 'name': '小儿白癜风', 'is_common': 1, 'initial': 'X', 'description': '小儿白癜风(vitiligo)是一种儿童常见多发的色素性皮肤病。该病以局部或泛发性色素脱失形成白斑为特征，是一种获得性局限性或泛发性皮肤色素脱失症，是一影响美容的常见皮肤病，易诊断，治疗难。中医医学称之为“白癜风”或“白驳风”。白癜风是后天性因皮肤色素脱失而发生的局限性白色斑片，使得局部皮肤呈白斑样。医学上通常把这种病变叫色素脱失。 此病世界各地均有发生，印度发病率最高，我国约有万人发病，可以累及所有种族，男女发病无显著差别。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4440, 'name': '小儿过敏性皮炎', 'is_common': 1, 'initial': 'X', 'description': '小儿过敏性皮炎是由于接触过敏性抗原引起的皮肤过敏反应，它主要是由IgE介导的I型变态反应。凡对特异性抗原有遗传的或体质上易感的人，在接触这种抗原时，可导致速发型或迟发型过敏性皮炎，主要是指人体接触到某些过敏源而引起皮肤红肿、发痒、风团、脱皮等皮肤病症。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4439, 'name': '小儿湿疹', 'is_common': 1, 'initial': 'X', 'description': '小儿湿疹，即特应性皮炎（atopic dermatitis，AD），又称为遗传过敏性皮炎、异位性皮炎，是一种慢性、复发性、炎症性皮肤病。多于婴幼儿时期发病，并迁延至儿童和成人期。以湿疹样皮疹，伴剧烈瘙痒，反复发作为临床特点，病患本人或家族中常有明显的“特应性”，严重影响生活质量。主要是对食入物、吸入物或接触物不耐受或过敏所致。患有湿疹的孩子起初皮肤发红、出现皮疹、继之皮肤发糙、脱屑，抚摩孩子的皮肤如同触摸在砂纸上一样。遇热、遇湿都可使湿疹表现显著。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4438, 'name': '神经系统疾病', 'is_common': 1, 'initial': 'S', 'description': '神经系统疾病是发生于中枢神经系统、周围神经系统、植物神经系统的以感觉、运动、意识、植物神经功能障碍为主要表现的疾病。又称神经病。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4437, 'name': '下咽癌', 'is_common': 1, 'initial': 'X', 'description': '下咽部在临床上分为3个解剖区：梨状窝、环状软骨后区（简称环后区）、喉咽后壁区。在原发性喉咽恶性肿瘤中，绝大多数（约95%）为鳞状细胞癌。国外资料统计，喉咽癌的发病率为0.8/10万。上海市（1986）的统计资料显示：男性的发病率为0．15/10万，女性为0.02/10万。中国医学科学院肿瘤医院在收治病例统计中发现，喉咽恶性肿瘤占头颈部恶性肿瘤的1.4%，占全身恶性肿瘤的0.2%。喉咽癌多发生在梨状窝，其次为喉咽后壁，环后区最少。梨状窝癌和喉咽后壁癌多发生在男性，而环后癌多发生在女性。喉咽癌的好发年龄为50～70岁。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4436, 'name': '喉癌', 'is_common': 1, 'initial': 'H', 'description': '喉癌分原发性和继发性两种。原发性喉癌指原发部位在喉部的肿瘤，以鳞状细胞癌最为常见。继发性喉癌指来自其他部位的恶性肿瘤转移至喉部，较为少见。喉癌症状主要为声嘶、呼吸困难、咳嗽、吞咽困难、颈部淋巴结转移等。高危人群应当注意戒烟，适当饮酒，做好预防工作。早期发现，早期诊疗对于减轻喉癌的危害非常重要，一方面可提高患者术后生存率，另外有可能尽量保留喉的发音功能，减少术后并发症。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4435, 'name': '头颈部肿瘤', 'is_common': 1, 'initial': 'T', 'description': '头颈部肿瘤包括颈部肿瘤、耳鼻喉科肿瘤以及口腔颌面部肿瘤三大部分。颈部肿瘤在综合性医院属于普通外科，比较常见的就是甲状腺肿瘤；耳鼻喉科肿瘤常见的有喉癌、副鼻窦癌等；口腔颌面部肿瘤常见的为各种口腔癌 ，如舌癌、牙龈癌、颊癌等', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4434, 'name': '支气管扩张', 'is_common': 1, 'initial': 'Z', 'description': '支气管扩张是由于支气管及其周围肺组织慢性化脓性炎症和纤维化，使支气管壁的肌肉和弹性组织破坏，导致支气管变形及持久扩张。典型的症状有慢性咳嗽、咳大量脓痰和反复咯血。主要致病因素为支气管感染、阻塞和牵拉，部分有先天遗传因素。患者多有麻疹、百日咳或支气管肺炎等病史。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4433, 'name': '胸腔积液', 'is_common': 1, 'initial': 'X', 'description': '胸腔积液（pleural effusion）是以胸膜腔内病理性液体积聚为特征的一种常见临床症候。胸膜腔为脏层和壁层胸膜之间的一个潜在间隙，正常人胸膜腔内有5～15ml液体，在呼吸运动时起润滑作用，胸膜腔内每天有500～1000ml的液体形成与吸收，任何原因导致胸膜腔内液体产生增多或吸收减少，即可产生胸腔积液。按其发生机制可分为漏出性胸腔积液和渗出性胸腔积液两类。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4432, 'name': '小儿支气管炎', 'is_common': 1, 'initial': 'X', 'description': '小儿支气管炎系指支气管发生炎症，小儿毛细支气管炎的病变主要发生在肺部的细小支气管，也就是毛细支气管，所以病名为“毛细支气管炎”，通常是由普通感冒，流行性感冒等病毒性感染引起的并发症，也可能由细菌感染所致，是小儿常见的一种急性上呼吸道感染。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4431, 'name': '小儿哮喘', 'is_common': 1, 'initial': 'X', 'description': '小儿哮喘（infantile asthma）是小儿常见的肺部疾患，是一种表现反复发作性咳嗽，喘鸣和呼吸困难，并伴有气道高反应性的可逆性、梗阻性呼吸道疾病。哮喘是一种严重危害儿童身体健康的常见慢性呼吸道疾病，其发病率高，常表现为反复发作的慢性病程，严重影响了患儿的学习、生活及活动，影响儿童的生长发育。不少哮喘患儿由于治疗不及时或治疗不当最终发展为成人哮喘而迁延不愈，肺功能受损，部分患儿甚至完全丧失体力活动能力。严重哮喘发作，若未得到及时有效治疗，可以致命。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}], 'size': 732, 'page_size': 20, 'page': 1}
+表格中的result为： 200
+获得的值为： {'list': [{'id': 4605, 'name': '骨囊肿', 'is_common': 1, 'initial': 'G', 'description': '骨囊肿为良性病变，亦称单纯性骨囊肿或孤立性骨囊肿。病因尚未明了。有学者认为骨囊肿是由于骨内血管末梢阻塞，血液瘀滞所致；也有认为本病系某种肿瘤、炎症组织的退行性变，其生长、代谢阻碍的结果或与骨发育异常有关；也有认为可能系外伤出血形成局限性包囊，进而局部吸收骨化而成。骨囊肿较小者可因骨折后骨痂而消失；囊肿较大者也可因之缩小；偶尔可因血肿骨化而消失。', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 9, 'disease_category_name': '骨与软组织肿瘤'}]}, {'id': 4604, 'name': '肺结节', 'is_common': 1, 'initial': 'F', 'description': '肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。肺结节(sarcoidosis)是一种病因未明的多系统多器官的肉芽肿性疾病，常侵犯肺、双侧肺门淋巴结、眼、皮肤等器官，其胸部受侵率高达80%～90%。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4598, 'name': '翼状胬肉', 'is_common': 1, 'initial': 'Y', 'description': '翼状胬肉是眼科常见病和多发病，中医称“胬肉攀睛”，俗称“鱼肉”。一般认为它是受外界剌激而引起的一种慢性炎症性病变，单眼或双眼受犯，因其形状酷似昆虫的翅膀故名。为睑裂部球结膜与角膜上一种赘生组织，侵犯角膜后日渐增大，甚至可覆盖至瞳孔区而严重影响视力。', 'category_list': [{'parent_disease_category_id': 18, 'parent_disease_category_name': '五官科专业', 'disease_category_id': 57, 'disease_category_name': '眼科'}]}, {'id': 4590, 'name': '外阴癌', 'is_common': 1, 'initial': 'W', 'description': '外阴癌（carcinoma of vulva）为起源于外阴部皮肤、粘膜及其附属器官和前庭大腺等的恶性肿瘤。外阴癌主要发生于老年妇女，平均发病年龄为60－70岁，但近年来随着HPV感染的增加，外阴癌在年轻妇女中也时有发生。', 'category_list': [{'parent_disease_category_id': 15, 'parent_disease_category_name': '妇产科专业', 'disease_category_id': 76, 'disease_category_name': '妇科'}, {'parent_disease_category_id': 19, 'parent_disease_category_name': '肿瘤专业', 'disease_category_id': 12, 'disease_category_name': '妇科肿瘤'}]}, {'id': 4589, 'name': '鼻部整形', 'is_common': 1, 'initial': 'B', 'description': '鼻部整形就是通过手术来重新塑形鼻子，是整形美容外科中最常见的手术之一。鼻整形术能够增加或缩小鼻子的大小；改变鼻背或鼻尖的形状；缩小鼻孔和改变鼻子与上唇的角度等，鼻整形术也能矫正某些先天性或外伤后的畸形。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 54, 'disease_category_name': '整形烧伤科'}]}, {'id': 4571, 'name': '三叉神经痛', 'is_common': 1, 'initial': 'S', 'description': '三叉神经痛是最常见的脑神经疾病，以一侧面部三叉神经分布区内反复发作的阵发性剧烈痛为主要表现. 该病的特点是：在头面部三叉神经分布区域内，发病骤发，骤停、闪电样、刀割样、烧灼样、顽固性、难以忍受的剧烈性疼痛。说话、洗脸、刷牙或微风拂面，甚至走路时都会导致阵发性时的剧烈疼痛。疼痛历时数秒或数分钟，疼痛呈周期性发作，发作间歇期同正常人一样。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4444, 'name': '手汗症', 'is_common': 1, 'initial': 'S', 'description': '手汗症为相当常见的一种原因不明的功能性局部异常多汗。因为人种上的特异性，生长在亚热带地区的年轻人，特别容易有此毛病。汗腺的分泌是经由交感神经所控制的，而手汗症即是因不明原因的交感神经过度紧张，例如紧张、兴奋、压力或夏天高温造成手掌排汗异常增加所致。 手汗症不分男女都有可能发生，在东方民族的年轻人中相当常见，有家族性的可达12%。曾有见到父母均有多汗症者，4个孩子均有程度不等的多汗。许多手掌多汗患者有家族史，但并非一定会遗传给下一代。', 'category_list': [{'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 7, 'disease_category_name': '神经外科'}, {'parent_disease_category_id': 14, 'parent_disease_category_name': '外科专业', 'disease_category_id': 46, 'disease_category_name': '心胸外科'}]}, {'id': 4443, 'name': 'DISH病', 'is_common': 1, 'initial': 'D', 'description': '弥漫性特发性骨肥厚症( diffuse idiopathic skeletal hyperostosis, DISH) 是一种原因不明的韧带骨化及骨质增生，是一种常见的随年龄增长而逐渐增多的疾病，可能与代谢或内分泌的变化有关，在病理上属退行性病变', 'category_list': [{'parent_disease_category_id': 17, 'parent_disease_category_name': '骨科专业', 'disease_category_id': 25, 'disease_category_name': '脊柱外科'}]}, {'id': 4442, 'name': '小儿银屑病', 'is_common': 1, 'initial': 'X', 'description': '小儿银屑病与链球菌感染、遗传因素更为密切，绝大多数患者发病前有扁桃体炎或上呼吸道感染史，半数以上的患儿伴有扁桃体慢性肿大，70%左右的患儿有明显的家族史。皮损以寻常型、点滴状为主，关节型及甲损害较少见。皮损常有冬季重、夏季轻的现象。由于初发皮疹常随感冒发烧而出现和消退，而且皮疹与其他原因造成的皮疹(病毒性、药物性等)没有特别明显的差异，所以容易被忽略或误诊。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4441, 'name': '小儿白癜风', 'is_common': 1, 'initial': 'X', 'description': '小儿白癜风(vitiligo)是一种儿童常见多发的色素性皮肤病。该病以局部或泛发性色素脱失形成白斑为特征，是一种获得性局限性或泛发性皮肤色素脱失症，是一影响美容的常见皮肤病，易诊断，治疗难。中医医学称之为“白癜风”或“白驳风”。白癜风是后天性因皮肤色素脱失而发生的局限性白色斑片，使得局部皮肤呈白斑样。医学上通常把这种病变叫色素脱失。 此病世界各地均有发生，印度发病率最高，我国约有万人发病，可以累及所有种族，男女发病无显著差别。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4440, 'name': '小儿过敏性皮炎', 'is_common': 1, 'initial': 'X', 'description': '小儿过敏性皮炎是由于接触过敏性抗原引起的皮肤过敏反应，它主要是由IgE介导的I型变态反应。凡对特异性抗原有遗传的或体质上易感的人，在接触这种抗原时，可导致速发型或迟发型过敏性皮炎，主要是指人体接触到某些过敏源而引起皮肤红肿、发痒、风团、脱皮等皮肤病症。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4439, 'name': '小儿湿疹', 'is_common': 1, 'initial': 'X', 'description': '小儿湿疹，即特应性皮炎（atopic dermatitis，AD），又称为遗传过敏性皮炎、异位性皮炎，是一种慢性、复发性、炎症性皮肤病。多于婴幼儿时期发病，并迁延至儿童和成人期。以湿疹样皮疹，伴剧烈瘙痒，反复发作为临床特点，病患本人或家族中常有明显的“特应性”，严重影响生活质量。主要是对食入物、吸入物或接触物不耐受或过敏所致。患有湿疹的孩子起初皮肤发红、出现皮疹、继之皮肤发糙、脱屑，抚摩孩子的皮肤如同触摸在砂纸上一样。遇热、遇湿都可使湿疹表现显著。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4438, 'name': '神经系统疾病', 'is_common': 1, 'initial': 'S', 'description': '神经系统疾病是发生于中枢神经系统、周围神经系统、植物神经系统的以感觉、运动、意识、植物神经功能障碍为主要表现的疾病。又称神经病。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4437, 'name': '下咽癌', 'is_common': 1, 'initial': 'X', 'description': '下咽部在临床上分为3个解剖区：梨状窝、环状软骨后区（简称环后区）、喉咽后壁区。在原发性喉咽恶性肿瘤中，绝大多数（约95%）为鳞状细胞癌。国外资料统计，喉咽癌的发病率为0.8/10万。上海市（1986）的统计资料显示：男性的发病率为0．15/10万，女性为0.02/10万。中国医学科学院肿瘤医院在收治病例统计中发现，喉咽恶性肿瘤占头颈部恶性肿瘤的1.4%，占全身恶性肿瘤的0.2%。喉咽癌多发生在梨状窝，其次为喉咽后壁，环后区最少。梨状窝癌和喉咽后壁癌多发生在男性，而环后癌多发生在女性。喉咽癌的好发年龄为50～70岁。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4436, 'name': '喉癌', 'is_common': 1, 'initial': 'H', 'description': '喉癌分原发性和继发性两种。原发性喉癌指原发部位在喉部的肿瘤，以鳞状细胞癌最为常见。继发性喉癌指来自其他部位的恶性肿瘤转移至喉部，较为少见。喉癌症状主要为声嘶、呼吸困难、咳嗽、吞咽困难、颈部淋巴结转移等。高危人群应当注意戒烟，适当饮酒，做好预防工作。早期发现，早期诊疗对于减轻喉癌的危害非常重要，一方面可提高患者术后生存率，另外有可能尽量保留喉的发音功能，减少术后并发症。', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4435, 'name': '头颈部肿瘤', 'is_common': 1, 'initial': 'T', 'description': '头颈部肿瘤包括颈部肿瘤、耳鼻喉科肿瘤以及口腔颌面部肿瘤三大部分。颈部肿瘤在综合性医院属于普通外科，比较常见的就是甲状腺肿瘤；耳鼻喉科肿瘤常见的有喉癌、副鼻窦癌等；口腔颌面部肿瘤常见的为各种口腔癌 ，如舌癌、牙龈癌、颊癌等', 'category_list': [{'parent_disease_category_id': 16, 'parent_disease_category_name': '小儿外科专业', 'disease_category_id': 82, 'disease_category_name': '小儿五官科'}]}, {'id': 4434, 'name': '支气管扩张', 'is_common': 1, 'initial': 'Z', 'description': '支气管扩张是由于支气管及其周围肺组织慢性化脓性炎症和纤维化，使支气管壁的肌肉和弹性组织破坏，导致支气管变形及持久扩张。典型的症状有慢性咳嗽、咳大量脓痰和反复咯血。主要致病因素为支气管感染、阻塞和牵拉，部分有先天遗传因素。患者多有麻疹、百日咳或支气管肺炎等病史。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4433, 'name': '胸腔积液', 'is_common': 1, 'initial': 'X', 'description': '胸腔积液（pleural effusion）是以胸膜腔内病理性液体积聚为特征的一种常见临床症候。胸膜腔为脏层和壁层胸膜之间的一个潜在间隙，正常人胸膜腔内有5～15ml液体，在呼吸运动时起润滑作用，胸膜腔内每天有500～1000ml的液体形成与吸收，任何原因导致胸膜腔内液体产生增多或吸收减少，即可产生胸腔积液。按其发生机制可分为漏出性胸腔积液和渗出性胸腔积液两类。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4432, 'name': '小儿支气管炎', 'is_common': 1, 'initial': 'X', 'description': '小儿支气管炎系指支气管发生炎症，小儿毛细支气管炎的病变主要发生在肺部的细小支气管，也就是毛细支气管，所以病名为“毛细支气管炎”，通常是由普通感冒，流行性感冒等病毒性感染引起的并发症，也可能由细菌感染所致，是小儿常见的一种急性上呼吸道感染。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}, {'id': 4431, 'name': '小儿哮喘', 'is_common': 1, 'initial': 'X', 'description': '小儿哮喘（infantile asthma）是小儿常见的肺部疾患，是一种表现反复发作性咳嗽，喘鸣和呼吸困难，并伴有气道高反应性的可逆性、梗阻性呼吸道疾病。哮喘是一种严重危害儿童身体健康的常见慢性呼吸道疾病，其发病率高，常表现为反复发作的慢性病程，严重影响了患儿的学习、生活及活动，影响儿童的生长发育。不少哮喘患儿由于治疗不及时或治疗不当最终发展为成人哮喘而迁延不愈，肺功能受损，部分患儿甚至完全丧失体力活动能力。严重哮喘发作，若未得到及时有效治疗，可以致命。', 'category_list': [{'parent_disease_category_id': 21, 'parent_disease_category_name': '其他', 'disease_category_id': 99, 'disease_category_name': '内科'}]}], 'size': 732, 'page_size': 20, 'page': 1}
+list的长度 20
+第 0 个list中的id为： 4605
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testDiseasesList.py", line 122, in tearDown
+    self.log.build_case_line(self.case_name, 'code', 'message')
+TypeError: build_case_line() missing 1 required positional argument: 'data'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>paramunittest.GetCityList_0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c6',1)" class="detail" id='c6'>详细</a></td>
+</tr>
+
+<tr id='ft6_1' class='none'>
+    <td class='errorCase'><div class='testcase'>testGetCity</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft6_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft6_1'>错误</button>
+    <div id='div_ft6_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft6_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft6_1'>错误</button>
+    <div id='div_ft6_1' class="collapse in" align="left">
+    <pre>
+    
+ft6_1: getCityList测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/cities
+第二步：设置header(token等)
+第二步：设置发送请求的参数 HOSPITAL
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 110000, 'name': '北京', 'initial': 'B', 'city_list': [{'id': 110100, 'name': '北京', 'area_code': '010', 'province_id': 110000, 'is_capital': True, 'initial': 'B'}]}, {'id': 120000, 'name': '天津', 'initial': 'T', 'city_list': [{'id': 120100, 'name': '天津', 'area_code': '022', 'province_id': 120000, 'is_capital': True, 'initial': 'T'}]}, {'id': 130000, 'name': '河北', 'initial': 'H', 'city_list': [{'id': 130900, 'name': '沧州', 'area_code': '0317', 'province_id': 130000, 'is_capital': False, 'initial': 'C'}, {'id': 131100, 'name': '衡水', 'area_code': '0318', 'province_id': 130000, 'is_capital': False, 'initial': 'H'}, {'id': 130100, 'name': '石家庄', 'area_code': '0311', 'province_id': 130000, 'is_capital': True, 'initial': 'S'}, {'id': 130200, 'name': '唐山', 'area_code': '0315', 'province_id': 130000, 'is_capital': False, 'initial': 'T'}, {'id': 130500, 'name': '邢台', 'area_code': '0319', 'province_id': 130000, 'is_capital': False, 'initial': 'X'}]}, {'id': 140000, 'name': '山西', 'initial': 'S', 'city_list': [{'id': 140100, 'name': '太原', 'area_code': '0351', 'province_id': 140000, 'is_capital': True, 'initial': 'T'}]}, {'id': 150000, 'name': '内蒙古', 'initial': 'N', 'city_list': [{'id': 150200, 'name': '包头', 'area_code': '0472', 'province_id': 150000, 'is_capital': False, 'initial': 'B'}, {'id': 150100, 'name': '呼和浩特', 'area_code': '0471', 'province_id': 150000, 'is_capital': True, 'initial': 'H'}]}, {'id': 210000, 'name': '辽宁', 'initial': 'L', 'city_list': [{'id': 210200, 'name': '大连', 'area_code': '0411', 'province_id': 210000, 'is_capital': False, 'initial': 'D'}, {'id': 210100, 'name': '沈阳', 'area_code': '024', 'province_id': 210000, 'is_capital': True, 'initial': 'S'}]}, {'id': 220000, 'name': '吉林', 'initial': 'J', 'city_list': [{'id': 220100, 'name': '长春', 'area_code': '0431', 'province_id': 220000, 'is_capital': True, 'initial': 'C'}, {'id': 220200, 'name': '吉林', 'area_code': '0432', 'province_id': 220000, 'is_capital': False, 'initial': 'J'}]}, {'id': 230000, 'name': '黑龙江', 'initial': 'H', 'city_list': [{'id': 230100, 'name': '哈尔滨', 'area_code': '0451', 'province_id': 230000, 'is_capital': True, 'initial': 'H'}]}, {'id': 310000, 'name': '上海', 'initial': 'S', 'city_list': [{'id': 310100, 'name': '上海', 'area_code': '021', 'province_id': 310000, 'is_capital': True, 'initial': 'S'}]}, {'id': 320000, 'name': '江苏', 'initial': 'J', 'city_list': [{'id': 320400, 'name': '常州', 'area_code': '0519', 'province_id': 320000, 'is_capital': False, 'initial': 'C'}, {'id': 320800, 'name': '淮安', 'area_code': '0517', 'province_id': 320000, 'is_capital': False, 'initial': 'H'}, {'id': 320700, 'name': '连云港', 'area_code': '0518', 'province_id': 320000, 'is_capital': False, 'initial': 'L'}, {'id': 320100, 'name': '南京', 'area_code': '025', 'province_id': 320000, 'is_capital': True, 'initial': 'N'}, {'id': 320600, 'name': '南通', 'area_code': '0513', 'province_id': 320000, 'is_capital': False, 'initial': 'N'}, {'id': 320500, 'name': '苏州', 'area_code': '0512', 'province_id': 320000, 'is_capital': False, 'initial': 'S'}, {'id': 320200, 'name': '无锡', 'area_code': '0510', 'province_id': 320000, 'is_capital': False, 'initial': 'W'}, {'id': 320300, 'name': '徐州', 'area_code': '0516', 'province_id': 320000, 'is_capital': False, 'initial': 'X'}, {'id': 320900, 'name': '盐城', 'area_code': '0515', 'province_id': 320000, 'is_capital': False, 'initial': 'Y'}, {'id': 321000, 'name': '扬州', 'area_code': '0514', 'province_id': 320000, 'is_capital': False, 'initial': 'Y'}, {'id': 321100, 'name': '镇江', 'area_code': '0511', 'province_id': 320000, 'is_capital': False, 'initial': 'Z'}]}, {'id': 330000, 'name': '浙江', 'initial': 'Z', 'city_list': [{'id': 330100, 'name': '杭州', 'area_code': '0571', 'province_id': 330000, 'is_capital': True, 'initial': 'H'}, {'id': 330500, 'name': '湖州', 'area_code': '0572', 'province_id': 330000, 'is_capital': False, 'initial': 'H'}, {'id': 330400, 'name': '嘉兴', 'area_code': '0573', 'province_id': 330000, 'is_capital': False, 'initial': 'J'}, {'id': 330700, 'name': '金华', 'area_code': '0579', 'province_id': 330000, 'is_capital': False, 'initial': 'J'}, {'id': 331100, 'name': '丽水', 'area_code': '0578', 'province_id': 330000, 'is_capital': False, 'initial': 'L'}, {'id': 330200, 'name': '宁波', 'area_code': '0574', 'province_id': 330000, 'is_capital': False, 'initial': 'N'}, {'id': 330800, 'name': '衢州', 'area_code': '0570', 'province_id': 330000, 'is_capital': False, 'initial': 'Q'}, {'id': 330300, 'name': '温州', 'area_code': '0577', 'province_id': 330000, 'is_capital': False, 'initial': 'W'}, {'id': 330900, 'name': '舟山', 'area_code': '0580', 'province_id': 330000, 'is_capital': False, 'initial': 'Z'}]}, {'id': 340000, 'name': '安徽', 'initial': 'A', 'city_list': [{'id': 340800, 'name': '安庆', 'area_code': '0556', 'province_id': 340000, 'is_capital': False, 'initial': 'A'}, {'id': 340300, 'name': '蚌埠', 'area_code': '0552', 'province_id': 340000, 'is_capital': False, 'initial': 'B'}, {'id': 340100, 'name': '合肥', 'area_code': '0551', 'province_id': 340000, 'is_capital': True, 'initial': 'H'}, {'id': 340700, 'name': '铜陵', 'area_code': '0562', 'province_id': 340000, 'is_capital': False, 'initial': 'T'}, {'id': 340200, 'name': '芜湖', 'area_code': '0553', 'province_id': 340000, 'is_capital': False, 'initial': 'W'}]}, {'id': 350000, 'name': '福建', 'initial': 'F', 'city_list': [{'id': 350100, 'name': '福州', 'area_code': '0591', 'province_id': 350000, 'is_capital': True, 'initial': 'F'}, {'id': 350200, 'name': '厦门', 'area_code': '0592', 'province_id': 350000, 'is_capital': False, 'initial': 'X'}]}, {'id': 360000, 'name': '江西', 'initial': 'J', 'city_list': [{'id': 360100, 'name': '南昌', 'area_code': '0791', 'province_id': 360000, 'is_capital': True, 'initial': 'N'}]}, {'id': 370000, 'name': '山东', 'initial': 'S', 'city_list': [{'id': 370100, 'name': '济南', 'area_code': '0531', 'province_id': 370000, 'is_capital': True, 'initial': 'J'}, {'id': 370800, 'name': '济宁', 'area_code': '0537', 'province_id': 370000, 'is_capital': False, 'initial': 'J'}, {'id': 371300, 'name': '临沂', 'area_code': '0539', 'province_id': 370000, 'is_capital': False, 'initial': 'L'}, {'id': 370200, 'name': '青岛', 'area_code': '0532', 'province_id': 370000, 'is_capital': False, 'initial': 'Q'}, {'id': 370900, 'name': '泰安', 'area_code': '0538', 'province_id': 370000, 'is_capital': False, 'initial': 'T'}, {'id': 370300, 'name': '淄博', 'area_code': '0533', 'province_id': 370000, 'is_capital': False, 'initial': 'Z'}]}, {'id': 410000, 'name': '河南', 'initial': 'H', 'city_list': [{'id': 410500, 'name': '安阳', 'area_code': '0372', 'province_id': 410000, 'is_capital': False, 'initial': 'A'}, {'id': 410800, 'name': '焦作', 'area_code': '0391', 'province_id': 410000, 'is_capital': False, 'initial': 'J'}, {'id': 410200, 'name': '开封', 'area_code': '0371', 'province_id': 410000, 'is_capital': False, 'initial': 'K'}, {'id': 410300, 'name': '洛阳', 'area_code': '0379', 'province_id': 410000, 'is_capital': False, 'initial': 'L'}, {'id': 411100, 'name': '漯河', 'area_code': '0395', 'province_id': 410000, 'is_capital': False, 'initial': 'L'}, {'id': 410900, 'name': '濮阳', 'area_code': '0393', 'province_id': 410000, 'is_capital': False, 'initial': 'P'}, {'id': 411400, 'name': '商丘', 'area_code': '0370', 'province_id': 410000, 'is_capital': False, 'initial': 'S'}, {'id': 410700, 'name': '新乡', 'area_code': '0373', 'province_id': 410000, 'is_capital': False, 'initial': 'X'}, {'id': 411000, 'name': '许昌', 'area_code': '0374', 'province_id': 410000, 'is_capital': False, 'initial': 'X'}, {'id': 410100, 'name': '郑州', 'area_code': '0371', 'province_id': 410000, 'is_capital': True, 'initial': 'Z'}]}, {'id': 420000, 'name': '湖北', 'initial': 'H', 'city_list': [{'id': 421100, 'name': '黄冈', 'area_code': '0713', 'province_id': 420000, 'is_capital': False, 'initial': 'H'}, {'id': 420100, 'name': '武汉', 'area_code': '027', 'province_id': 420000, 'is_capital': True, 'initial': 'W'}]}, {'id': 430000, 'name': '湖南', 'initial': 'H', 'city_list': [{'id': 430100, 'name': '长沙', 'area_code': '0731', 'province_id': 430000, 'is_capital': True, 'initial': 'C'}]}, {'id': 440000, 'name': '广东', 'initial': 'G', 'city_list': [{'id': 445100, 'name': '潮州', 'area_code': '0768', 'province_id': 440000, 'is_capital': False, 'initial': 'C'}, {'id': 440600, 'name': '佛山', 'area_code': '0757', 'province_id': 440000, 'is_capital': False, 'initial': 'F'}, {'id': 440100, 'name': '广州', 'area_code': '020', 'province_id': 440000, 'is_capital': True, 'initial': 'G'}, {'id': 440900, 'name': '茂名', 'area_code': '0668', 'province_id': 440000, 'is_capital': False, 'initial': 'M'}, {'id': 440300, 'name': '深圳', 'area_code': '0755', 'province_id': 440000, 'is_capital': False, 'initial': 'S'}, {'id': 440500, 'name': '汕头', 'area_code': '0754', 'province_id': 440000, 'is_capital': False, 'initial': 'S'}, {'id': 440400, 'name': '珠海', 'area_code': '0756', 'province_id': 440000, 'is_capital': False, 'initial': 'Z'}]}, {'id': 450000, 'name': '广西', 'initial': 'G', 'city_list': [{'id': 450200, 'name': '柳州', 'area_code': '0772', 'province_id': 450000, 'is_capital': False, 'initial': 'L'}, {'id': 450100, 'name': '南宁', 'area_code': '0771', 'province_id': 450000, 'is_capital': True, 'initial': 'N'}]}, {'id': 460000, 'name': '海南', 'initial': 'H', 'city_list': [{'id': 460100, 'name': '海口', 'area_code': '0898', 'province_id': 460000, 'is_capital': True, 'initial': 'H'}]}, {'id': 500000, 'name': '重庆', 'initial': 'C', 'city_list': [{'id': 500100, 'name': '重庆', 'area_code': '023', 'province_id': 500000, 'is_capital': True, 'initial': 'C'}]}, {'id': 510000, 'name': '四川', 'initial': 'S', 'city_list': [{'id': 510100, 'name': '成都', 'area_code': '028', 'province_id': 510000, 'is_capital': True, 'initial': 'C'}]}, {'id': 520000, 'name': '贵州', 'initial': 'G', 'city_list': [{'id': 520100, 'name': '贵阳', 'area_code': '0851', 'province_id': 520000, 'is_capital': True, 'initial': 'G'}]}, {'id': 530000, 'name': '云南', 'initial': 'Y', 'city_list': [{'id': 530100, 'name': '昆明', 'area_code': '0871', 'province_id': 530000, 'is_capital': True, 'initial': 'K'}]}, {'id': 540000, 'name': '西藏', 'initial': 'X', 'city_list': [{'id': 540100, 'name': '拉萨', 'area_code': '0891', 'province_id': 540000, 'is_capital': True, 'initial': 'L'}]}, {'id': 610000, 'name': '陕西', 'initial': 'S', 'city_list': [{'id': 610100, 'name': '西安', 'area_code': '029', 'province_id': 610000, 'is_capital': True, 'initial': 'X'}]}, {'id': 620000, 'name': '甘肃', 'initial': 'G', 'city_list': [{'id': 620100, 'name': '兰州', 'area_code': '0931', 'province_id': 620000, 'is_capital': True, 'initial': 'L'}]}, {'id': 630000, 'name': '青海', 'initial': 'Q', 'city_list': [{'id': 630100, 'name': '西宁', 'area_code': '0971', 'province_id': 630000, 'is_capital': True, 'initial': 'X'}]}, {'id': 640000, 'name': '宁夏', 'initial': 'N', 'city_list': [{'id': 640100, 'name': '银川', 'area_code': '0951', 'province_id': 640000, 'is_capital': True, 'initial': 'Y'}]}, {'id': 650000, 'name': '新疆', 'initial': 'X', 'city_list': [{'id': 650100, 'name': '乌鲁木齐', 'area_code': '0991', 'province_id': 650000, 'is_capital': True, 'initial': 'W'}]}]}
+表格中的result为： 200
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testGetCityList.py", line 90, in tearDown
+    self.log.build_case_line(self.case_name, 'code', 'message')
+TypeError: build_case_line() missing 1 required positional argument: 'data'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>paramunittest.GetCityList_1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c7',1)" class="detail" id='c7'>详细</a></td>
+</tr>
+
+<tr id='ft7_1' class='none'>
+    <td class='errorCase'><div class='testcase'>testGetCity</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft7_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft7_1'>错误</button>
+    <div id='div_ft7_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft7_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft7_1'>错误</button>
+    <div id='div_ft7_1' class="collapse in" align="left">
+    <pre>
+    
+ft7_1: getCityListDoctor测试开始前准备
+开始执行第一个用例==============&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v1/cities
+第二步：设置header(token等)
+第二步：设置发送请求的参数 DOCTOR
+第三步：发送请求请求方法：
+第四步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+期望的code为： 1000000
+message OK
+data {'list': [{'id': 110000, 'name': '北京', 'initial': 'B', 'city_list': [{'id': 110100, 'name': '北京', 'area_code': '010', 'province_id': 110000, 'is_capital': True, 'initial': 'B'}]}, {'id': 120000, 'name': '天津', 'initial': 'T', 'city_list': [{'id': 120100, 'name': '天津', 'area_code': '022', 'province_id': 120000, 'is_capital': True, 'initial': 'T'}]}, {'id': 130000, 'name': '河北', 'initial': 'H', 'city_list': [{'id': 130100, 'name': '石家庄', 'area_code': '0311', 'province_id': 130000, 'is_capital': True, 'initial': 'S'}]}, {'id': 210000, 'name': '辽宁', 'initial': 'L', 'city_list': [{'id': 210200, 'name': '大连', 'area_code': '0411', 'province_id': 210000, 'is_capital': False, 'initial': 'D'}, {'id': 210100, 'name': '沈阳', 'area_code': '024', 'province_id': 210000, 'is_capital': True, 'initial': 'S'}]}, {'id': 220000, 'name': '吉林', 'initial': 'J', 'city_list': [{'id': 220100, 'name': '长春', 'area_code': '0431', 'province_id': 220000, 'is_capital': True, 'initial': 'C'}]}, {'id': 230000, 'name': '黑龙江', 'initial': 'H', 'city_list': [{'id': 230100, 'name': '哈尔滨', 'area_code': '0451', 'province_id': 230000, 'is_capital': True, 'initial': 'H'}]}, {'id': 310000, 'name': '上海', 'initial': 'S', 'city_list': [{'id': 310100, 'name': '上海', 'area_code': '021', 'province_id': 310000, 'is_capital': True, 'initial': 'S'}]}, {'id': 320000, 'name': '江苏', 'initial': 'J', 'city_list': [{'id': 320400, 'name': '常州', 'area_code': '0519', 'province_id': 320000, 'is_capital': False, 'initial': 'C'}, {'id': 320800, 'name': '淮安', 'area_code': '0517', 'province_id': 320000, 'is_capital': False, 'initial': 'H'}, {'id': 320100, 'name': '南京', 'area_code': '025', 'province_id': 320000, 'is_capital': True, 'initial': 'N'}, {'id': 320600, 'name': '南通', 'area_code': '0513', 'province_id': 320000, 'is_capital': False, 'initial': 'N'}, {'id': 320500, 'name': '苏州', 'area_code': '0512', 'province_id': 320000, 'is_capital': False, 'initial': 'S'}, {'id': 320200, 'name': '无锡', 'area_code': '0510', 'province_id': 320000, 'is_capital': False, 'initial': 'W'}, {'id': 320300, 'name': '徐州', 'area_code': '0516', 'province_id': 320000, 'is_capital': False, 'initial': 'X'}, {'id': 320900, 'name': '盐城', 'area_code': '0515', 'province_id': 320000, 'is_capital': False, 'initial': 'Y'}, {'id': 321000, 'name': '扬州', 'area_code': '0514', 'province_id': 320000, 'is_capital': False, 'initial': 'Y'}, {'id': 321100, 'name': '镇江', 'area_code': '0511', 'province_id': 320000, 'is_capital': False, 'initial': 'Z'}]}, {'id': 330000, 'name': '浙江', 'initial': 'Z', 'city_list': [{'id': 330100, 'name': '杭州', 'area_code': '0571', 'province_id': 330000, 'is_capital': True, 'initial': 'H'}, {'id': 330500, 'name': '湖州', 'area_code': '0572', 'province_id': 330000, 'is_capital': False, 'initial': 'H'}, {'id': 330400, 'name': '嘉兴', 'area_code': '0573', 'province_id': 330000, 'is_capital': False, 'initial': 'J'}, {'id': 330700, 'name': '金华', 'area_code': '0579', 'province_id': 330000, 'is_capital': False, 'initial': 'J'}, {'id': 331100, 'name': '丽水', 'area_code': '0578', 'province_id': 330000, 'is_capital': False, 'initial': 'L'}, {'id': 330200, 'name': '宁波', 'area_code': '0574', 'province_id': 330000, 'is_capital': False, 'initial': 'N'}, {'id': 330800, 'name': '衢州', 'area_code': '0570', 'province_id': 330000, 'is_capital': False, 'initial': 'Q'}, {'id': 330300, 'name': '温州', 'area_code': '0577', 'province_id': 330000, 'is_capital': False, 'initial': 'W'}]}, {'id': 340000, 'name': '安徽', 'initial': 'A', 'city_list': [{'id': 340800, 'name': '安庆', 'area_code': '0556', 'province_id': 340000, 'is_capital': False, 'initial': 'A'}, {'id': 340100, 'name': '合肥', 'area_code': '0551', 'province_id': 340000, 'is_capital': True, 'initial': 'H'}]}, {'id': 350000, 'name': '福建', 'initial': 'F', 'city_list': [{'id': 350100, 'name': '福州', 'area_code': '0591', 'province_id': 350000, 'is_capital': True, 'initial': 'F'}, {'id': 350200, 'name': '厦门', 'area_code': '0592', 'province_id': 350000, 'is_capital': False, 'initial': 'X'}]}, {'id': 360000, 'name': '江西', 'initial': 'J', 'city_list': [{'id': 360100, 'name': '南昌', 'area_code': '0791', 'province_id': 360000, 'is_capital': True, 'initial': 'N'}]}, {'id': 370000, 'name': '山东', 'initial': 'S', 'city_list': [{'id': 370100, 'name': '济南', 'area_code': '0531', 'province_id': 370000, 'is_capital': True, 'initial': 'J'}, {'id': 370200, 'name': '青岛', 'area_code': '0532', 'province_id': 370000, 'is_capital': False, 'initial': 'Q'}]}, {'id': 410000, 'name': '河南', 'initial': 'H', 'city_list': [{'id': 410500, 'name': '安阳', 'area_code': '0372', 'province_id': 410000, 'is_capital': False, 'initial': 'A'}, {'id': 410200, 'name': '开封', 'area_code': '0371', 'province_id': 410000, 'is_capital': False, 'initial': 'K'}, {'id': 410300, 'name': '洛阳', 'area_code': '0379', 'province_id': 410000, 'is_capital': False, 'initial': 'L'}, {'id': 410900, 'name': '濮阳', 'area_code': '0393', 'province_id': 410000, 'is_capital': False, 'initial': 'P'}, {'id': 410700, 'name': '新乡', 'area_code': '0373', 'province_id': 410000, 'is_capital': False, 'initial': 'X'}, {'id': 410100, 'name': '郑州', 'area_code': '0371', 'province_id': 410000, 'is_capital': True, 'initial': 'Z'}]}, {'id': 420000, 'name': '湖北', 'initial': 'H', 'city_list': [{'id': 420100, 'name': '武汉', 'area_code': '027', 'province_id': 420000, 'is_capital': True, 'initial': 'W'}]}, {'id': 430000, 'name': '湖南', 'initial': 'H', 'city_list': [{'id': 430100, 'name': '长沙', 'area_code': '0731', 'province_id': 430000, 'is_capital': True, 'initial': 'C'}]}, {'id': 440000, 'name': '广东', 'initial': 'G', 'city_list': [{'id': 440100, 'name': '广州', 'area_code': '020', 'province_id': 440000, 'is_capital': True, 'initial': 'G'}, {'id': 440300, 'name': '深圳', 'area_code': '0755', 'province_id': 440000, 'is_capital': False, 'initial': 'S'}]}, {'id': 450000, 'name': '广西', 'initial': 'G', 'city_list': [{'id': 450200, 'name': '柳州', 'area_code': '0772', 'province_id': 450000, 'is_capital': False, 'initial': 'L'}]}, {'id': 500000, 'name': '重庆', 'initial': 'C', 'city_list': [{'id': 500100, 'name': '重庆', 'area_code': '023', 'province_id': 500000, 'is_capital': True, 'initial': 'C'}]}, {'id': 510000, 'name': '四川', 'initial': 'S', 'city_list': [{'id': 510100, 'name': '成都', 'area_code': '028', 'province_id': 510000, 'is_capital': True, 'initial': 'C'}]}, {'id': 610000, 'name': '陕西', 'initial': 'S', 'city_list': [{'id': 610100, 'name': '西安', 'area_code': '029', 'province_id': 610000, 'is_capital': True, 'initial': 'X'}]}]}
+表格中的result为： 200
+Traceback (most recent call last):
+  File "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient/testGetCityList.py", line 90, in tearDown
+    self.log.build_case_line(self.case_name, 'code', 'message')
+TypeError: build_case_line() missing 1 required positional argument: 'data'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.GetProfile_0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c8',1)" class="detail" id='c8'>详细</a></td>
+</tr>
+
+<tr id='pt8_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testGetProfile</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_1'>通过</button>
+    <div id='div_pt8_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_1'>通过</button>
+    <div id='div_pt8_1' class="collapse in" align="left">
+    <pre>
+    
+pt8_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+写入的用户token为： OwyfB0SzYe2BM24N-oG1tN8o-eSe5UcrIKqr5PZE
+测试用例名为：getProfile
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/v1/patients/profile
+用户token为： OwyfB0SzYe2BM24N-oG1tN8o-eSe5UcrIKqr5PZE
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+[code]: 1000000
+[message]: OK
+期望的code为： 1000000
+[data]: {'user_id': 305, 'name': 'lemo', 'mobile': '15612349999', 'gender': 'FEMALE', 'birthday': '1999-12-26T00:00:00.000Z', 'activated_state': True, 'last_login': '2018-09-14T01:40:23.000Z', 'last_ip': '192.168.15.59', 'created_at': '2018-01-08T02:47:31.000Z', 'modified_at': '2018-09-14T01:40:23.000Z', 'nick_name': 'lemo', 'related_accounts': [{'id': 269, 'user_id': 305, 'info': '{"openid":"okQNrwUvJy1fpqvPW2Flaxygnf44","nickname":"lemon","sex":2,"province":"上海","city":"浦东新区","country":"中国","headimgurl":"https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJprW0K5jYpsWMq1JI1J3QXKePNxR93hsAaKKAsjN6YYR4jbxygoEJpbjqLBWiblJs0TLbTUVhGYHw/132","privilege":[]}', 'created_at': '2018-08-21T08:08:30.000+0000', 'modified_at': '2018-08-21T08:26:51.000+0000', 'authId': 'okQNrwUvJy1fpqvPW2Flaxygnf44', 'authSource': 'myzd01'}], 'order_statistics': {'statistics_type': 'HAS_WAIT_PAY', 'wait_pay_count': 11}}
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.GetProfile_1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c9',1)" class="detail" id='c9'>详细</a></td>
+</tr>
+
+<tr id='pt9_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testGetProfile</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt9_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt9_1'>通过</button>
+    <div id='div_pt9_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt9_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt9_1'>通过</button>
+    <div id='div_pt9_1' class="collapse in" align="left">
+    <pre>
+    
+pt9_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：getErrorProfile
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/v1/patients/profile
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+[code]: 2411006
+[message]: unauthenticated
+期望的code为： 2411006
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.Logout_0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c10',1)" class="detail" id='c10'>详细</a></td>
+</tr>
+
+<tr id='pt10_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testLogout</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_1'>通过</button>
+    <div id='div_pt10_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_1'>通过</button>
+    <div id='div_pt10_1' class="collapse in" align="left">
+    <pre>
+    
+pt10_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+用户的token为：GfFpswpwRNoDH7OTOoEcmRntRVosYgGzjwoyH37d
+测试用例名为：logoutWithToken
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v2/login/logout
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'unbind': 'true'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+[code]: 1000000
+[message]: OK
+期望的code为： 1000000
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.Logout_1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c11',1)" class="detail" id='c11'>详细</a></td>
+</tr>
+
+<tr id='pt11_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testLogout</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt11_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt11_1'>通过</button>
+    <div id='div_pt11_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt11_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt11_1'>通过</button>
+    <div id='div_pt11_1' class="collapse in" align="left">
+    <pre>
+    
+pt11_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+用户的token为：gSj8QgzBZXAjQ8zY9rQkVV5wDd1kraY162dIKoxV
+测试用例名为：logoutWithEmptyToken
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/v2/login/logout
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'unbind': 'true'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+[code]: 2411006
+[message]: unauthenticated
+期望的code为： 2411006
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c12',1)" class="detail" id='c12'>详细</a></td>
+</tr>
+
+<tr id='pt12_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt12_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt12_1'>通过</button>
+    <div id='div_pt12_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt12_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt12_1'>通过</button>
+    <div id='div_pt12_1' class="collapse in" align="left">
+    <pre>
+    
+pt12_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：sendCorrectMobile
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/login/sendVerifyCode
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': '18317119999'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1000000
+message OK
+期望的code为： 1000000
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c13',1)" class="detail" id='c13'>详细</a></td>
+</tr>
+
+<tr id='pt13_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt13_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt13_1'>通过</button>
+    <div id='div_pt13_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt13_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt13_1'>通过</button>
+    <div id='div_pt13_1' class="collapse in" align="left">
+    <pre>
+    
+pt13_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：sendErrorMobile
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/login/sendVerifyCode
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': '1234567890'}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1911001
+message mobile
+期望的code为： 1911001
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>paramunittest.SendVerifyCode_2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c14',1)" class="detail" id='c14'>详细</a></td>
+</tr>
+
+<tr id='pt14_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testSendVerifyCode</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt14_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt14_1'>通过</button>
+    <div id='div_pt14_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt14_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt14_1'>通过</button>
+    <div id='div_pt14_1' class="collapse in" align="left">
+    <pre>
+    
+pt14_1: 测试开始前准备====================&gt;&gt;&gt;&gt;
+测试用例名为：sendEmptyMobile
+开始执行用例====================&gt;&gt;&gt;&gt;
+第一步：设置url  /patient/api/login/sendVerifyCode
+第二步：设置header(token等)
+第三步：设置发送请求的参数 {'mobile': ''}
+第四步：发送请求请求方法：
+第五步：检查结果
+接口返回的信息为：==========&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code 1911001
+message mobile
+期望的code为： 1911001
+测试结束，输出log完结
+
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>16</td>
+    <td>10</td>
+    <td>2</td>
+    <td>4</td>
+    <td>通过率：62.50%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+</body>
+</html>

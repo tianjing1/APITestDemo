@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<interface>
+    <url name="getCityList">
+        <action>api/v1/cities</action>
+    </url>
+
+    <url name="getDiseasesList">
+        <action>api/v1/diseases</action>
+    </url>
+
+    <url name="sendVerifyCode">
+        <action>api/login/sendVerifyCode</action>
+    </url>
+
+    <url name="checkVerifyCode">
+        <action>api/v2/login/checkVerifyCodeV2</action>
+    </url>
+
+    <url name="logout">
+        <action>api/v2/login/logout</action>
+    </url>
+
+    <url name="getProfile">
+        <action>v1/patients/profile</action>
+    </url>
+
+    <url name="updateProfile">
+        <action>v1/patients/profile</action>
+    </url>
+</interface>
