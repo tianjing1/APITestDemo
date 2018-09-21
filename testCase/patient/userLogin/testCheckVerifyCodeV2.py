@@ -3,7 +3,7 @@ import paramunittest
 import readConfig
 from common import configHttp, common
 from common.Log import MyLog
-from testCase.patient import testSendVerifyCode
+from testCase.patient.userLogin import testSendVerifyCode
 
 check_verify_code_xls = common.get_xls("patient_edge.xlsx", "checkVerifyCode")
 localReadConfig = readConfig.ReadConfig()
@@ -24,9 +24,10 @@ def check_verify_code(mobile, mobile_code):
 
 @paramunittest.parametrized(*check_verify_code_xls)
 class SendVerifyCode(unittest.TestCase):
-    def setParameters(self, case_name, method, token, mobile, mobile_code, result, code, message):
+    def setParameters(self, case_note, case_name, method, token, mobile, mobile_code, result, code, message):
         """
         set parameters
+        :param case_note：用例备注
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份

@@ -23,9 +23,10 @@ def send_verify_code(mobile):
 
 @paramunittest.parametrized(*send_verify_code_xls)
 class SendVerifyCode(unittest.TestCase):
-    def setParameters(self, case_name, method, token, mobile, result, code, message):
+    def setParameters(self, case_note,case_name, method, token, mobile, result, code, message):
         """
         set parameters
+        :param case_note:
         :param case_name:
         :param method:
         :param token:

@@ -3,7 +3,7 @@ import paramunittest
 import readConfig
 from common import configHttp, common
 from common.Log import MyLog
-from testCase.patient import testCheckVerifyCodeV2
+from testCase.patient.userLogin import testCheckVerifyCodeV2
 
 logout_xls = common.get_xls("patient_edge.xlsx", "logout")
 localReadConfig = readConfig.ReadConfig()
@@ -24,9 +24,10 @@ def logout(token):
 
 @paramunittest.parametrized(*logout_xls)
 class Logout(unittest.TestCase):
-    def setParameters(self, case_name, method, token, mobile, mobile_code, unbind, result, code, message, deleted):
+    def setParameters(self, case_note,case_name, method, token, mobile, mobile_code, unbind, result, code, message, deleted):
         """
         set parameters
+        :param case_note:
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份

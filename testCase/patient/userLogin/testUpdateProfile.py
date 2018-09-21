@@ -8,7 +8,7 @@ import readConfig
 import writeConfig
 from common import configHttp, common
 from common.Log import MyLog
-from testCase.patient import testSendVerifyCode, testCheckVerifyCodeV2
+from testCase.patient.userLogin import testSendVerifyCode, testCheckVerifyCodeV2
 from utilities import DateHelper
 from utilities.SQLDataHelper import get_database_data
 
@@ -20,9 +20,10 @@ info = {}
 
 @paramunittest.parametrized(*updateProfile_xls)
 class UpdateProfile(unittest.TestCase):
-    def setParameters(self, case_name, method, token, user_id, name, gender, birthday, result, code, message):
+    def setParameters(self, case_note,case_name, method, token, user_id, name, gender, birthday, result, code, message):
         """
         set parameters
+        :param case_note:
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份
