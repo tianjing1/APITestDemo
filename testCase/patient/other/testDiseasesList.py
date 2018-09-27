@@ -14,7 +14,7 @@ info = {}
 @paramunittest.parametrized(*login_xls)
 class GetDiseasesList(unittest.TestCase):
     def setParameters(self, case_name, method, token, isCommon, name, parentCategoryId, categoryId, relatedDoctor, page,
-                      pageSize, result, code, msg):
+                      pageSize, result, code, msg,case_note):
         """
         set parameters
         :param case_name:

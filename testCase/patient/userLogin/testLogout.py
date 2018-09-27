@@ -24,10 +24,9 @@ def logout(token):
 
 @paramunittest.parametrized(*logout_xls)
 class Logout(unittest.TestCase):
-    def setParameters(self, case_note,case_name, method, token, mobile, mobile_code, unbind, result, code, message, deleted):
+    def setParameters(self,case_name, method, token, mobile, mobile_code, unbind, result, code, message, deleted,case_note):
         """
         set parameters
-        :param case_note:
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份

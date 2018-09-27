@@ -24,10 +24,9 @@ def check_verify_code(mobile, mobile_code):
 
 @paramunittest.parametrized(*check_verify_code_xls)
 class SendVerifyCode(unittest.TestCase):
-    def setParameters(self, case_note, case_name, method, token, mobile, mobile_code, result, code, message):
+    def setParameters(self, case_name, method, token, mobile, mobile_code, result, code, message,case_note):
         """
         set parameters
-        :param case_note：用例备注
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份

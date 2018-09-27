@@ -12,7 +12,7 @@ info = {}
 
 @paramunittest.parametrized(*login_xls)
 class GetCityList(unittest.TestCase):
-    def setParameters(self, case_name, method, token, type, result, code, msg):
+    def setParameters(self, case_name, method, token, type, result, code, msg, case_note):
         """
         set parameters
         :param case_name:

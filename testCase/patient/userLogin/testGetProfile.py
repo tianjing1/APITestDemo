@@ -25,10 +25,9 @@ def get_profile(user_token):
 
 @paramunittest.parametrized(*check_verify_code_xls)
 class GetProfile(unittest.TestCase):
-    def setParameters(self,case_name, method, token, result, code, message, user_id,case_note):
+    def setParameters(self, case_name, method, token, result, code, message, user_id, case_note):
         """
         set parameters
-        :param case_note:
         :param case_name:用例名
         :param method:方法名
         :param token:用户身份

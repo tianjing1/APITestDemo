@@ -61,7 +61,7 @@ def get_url_from_xml(name):
     for u in tree.findall('url'):
         url_name = u.get('name')
         if url_name == name:
-            for c in u.getchildren():
+            for c in list(u):
                 url_list.append(c.text)
 
     url = '/patient/' + '/'.join(url_list)
