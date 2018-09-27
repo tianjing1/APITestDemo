@@ -9,7 +9,7 @@ import os,time
 
 from common import HTMLTestRunnerNew
 
-listaa = "/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient"
+listaa = "/Users/nano/代码/Jessie/python/APITestDemo/testCase/patient"
 def createsuite1():
     testunit=unittest.TestSuite()
     discover=unittest.defaultTestLoader.discover(listaa,pattern='test*.py',top_level_dir=None)
@@ -20,7 +20,7 @@ def createsuite1():
     return testunit
 
 now = time.strftime("%Y-%m-%d %H_%M_%S",time.localtime())
-filename="/Users/nano/代码/Jessie/python/monitorAPI/testCase/patient"+"result1.html"
+filename="/Users/nano/代码/Jessie/python/APITestDemo/testCase/patient"+"result1.html"
 
 fp=open(filename,'wb')
 runner= HTMLTestRunnerNew.HTMLTestRunner(
